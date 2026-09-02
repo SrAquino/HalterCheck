@@ -216,3 +216,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.env
+**/secrets.h
+**/config.local.*
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+data/raw/**
+data/interim/**
+data/processed/**
+!data/**/README.md
+!data/sample/**
+
+thesis/*.pdf
+thesis/*.aux
+thesis/*.log
+thesis/*.out
+thesis/*.toc

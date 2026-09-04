@@ -12,12 +12,7 @@
 Este trabalho investiga a seguinte questão de pesquisa:
 
 \begin{quote}
-Em uma avaliação experimental intraindividual da elevação lateral bilateral,
-em que medida um sistema embarcado com IMUs em dois halteres consegue, em
-tempo quase real, distinguir padrões corretos de amplitude inadequada,
-alterações de cadência, assimetria entre membros e impulso ou balanço, e
-quais erros posturais globais permanecem não identificáveis de forma
-confiável sem sensores corporais ou câmeras?
+Em uma avaliação experimental intraindividual da elevação lateral bilateral, em que medida um sistema embarcado com IMUs em dois halteres consegue, em tempo quase real, distinguir execuções corretas de execuções com amplitude inadequada, alteração de cadência, assimetria entre os membros ou impulso/balanço, e quais erros posturais globais permanecem não identificáveis de forma confiável quando sensores corporais e imagens não são empregados como entradas do sistema?
 \end{quote}
 
 \section{Hipóteses}
@@ -247,19 +242,61 @@ Essas delimitações não impedem que alguns dos aspectos mencionados sejam
 explorados futuramente. Elas estabelecem os limites dentro dos quais os
 resultados e as conclusões desta pesquisa deverão ser interpretados.
 
-\section{Contribuições esperadas}
+\section{Contribuições do trabalho}
+\label{sec:contribuicoes}
 
-As contribuições esperadas deste trabalho incluem:
+As contribuições deste trabalho são organizadas em duas categorias. A
+contribuição científica está relacionada ao conhecimento produzido pela
+avaliação experimental, enquanto a contribuição de engenharia está
+relacionada ao artefato desenvolvido e às soluções técnicas necessárias
+para sua operação.
 
-\begin{itemize}
-    \item o desenvolvimento de um protótipo de halter instrumentado com IMUs;
-    \item a definição de um protocolo experimental para coleta de dados;
-    \item a avaliação da latência para feedback em tempo quase real;
-    \item a comparação entre regras manuais, Random Forest, SVM e CNN;
-    \item a análise dos limites de identificação de erros usando sensores
-    apenas nos halteres;
-    \item a discussão sobre a viabilidade de personalização futura por usuário.
-\end{itemize}
+\subsection{Contribuição científica}
+\label{subsec:contribuicao-cientifica}
+
+A contribuição científica principal consiste na produção de evidências
+experimentais sobre a capacidade e os limites de sensores inerciais
+acoplados exclusivamente a dois halteres para identificar características
+da elevação lateral bilateral.
+
+O estudo busca caracterizar quais informações relacionadas à amplitude,
+cadência, assimetria e uso de impulso ou balanço permanecem observáveis
+nos sinais dos halteres e quais erros posturais globais não podem ser
+identificados de forma estável na configuração avaliada. Essa análise
+contribui para delimitar o potencial de sensores posicionados no
+equipamento, em contraste com abordagens que dependem de câmeras ou
+sensores fixados ao corpo.
+
+Também constitui contribuição científica a comparação experimental
+entre métodos baseados em regras manuais, Random Forest, Support Vector
+Machine e rede neural convolucional, utilizando separação entre sessões
+para avaliar a estabilidade dos resultados em dados não empregados no
+treinamento.
+
+Como contribuição metodológica complementar, o trabalho estabelece um
+protocolo intraindividual para produção, rotulagem e avaliação de
+execuções controladas da elevação lateral bilateral com dois halteres
+instrumentados.
+
+\subsection{Contribuição de engenharia}
+\label{subsec:contribuicao-engenharia}
+
+A contribuição de engenharia consiste no desenvolvimento do HalterCheck,
+um protótipo formado por dois halteres instrumentados com IMUs e
+unidades de processamento independentes, integrado a uma infraestrutura
+para aquisição bilateral, sincronização temporal e transmissão dos
+sinais inerciais.
+
+O protótipo inclui firmware para leitura e identificação dos sensores,
+mecanismos para comunicação dos dispositivos com o servidor e um
+pipeline para controle de qualidade, pré-processamento, segmentação,
+contagem e classificação das repetições. A solução também permite medir
+a latência entre o término do movimento e a produção do resultado,
+possibilitando avaliar sua aplicação em feedback próximo do tempo real.
+
+A documentação da arquitetura, dos formatos de dados, dos procedimentos
+experimentais e dos métodos de processamento busca tornar o sistema
+reproduzível e permitir sua extensão em investigações futuras.
 
 
 \section{Organização do trabalho}

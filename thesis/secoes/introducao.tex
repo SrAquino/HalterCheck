@@ -1,0 +1,266 @@
+\chapter{\MakeUppercase{Introdução}}
+\label{cap:introducao}
+
+\section{Contextualização}
+% Apresentação do problema, exercícios resistidos, avaliação do movimento,
+% sensores inerciais e motivação do HalterCheck.
+
+\section{Motivação e justificativa}
+
+\section{Problema e questão de pesquisa}
+
+Este trabalho investiga a seguinte questão de pesquisa:
+
+\begin{quote}
+Em uma avaliação experimental intraindividual da elevação lateral bilateral,
+em que medida um sistema embarcado com IMUs em dois halteres consegue, em
+tempo quase real, distinguir padrões corretos de amplitude inadequada,
+alterações de cadência, assimetria entre membros e impulso ou balanço, e
+quais erros posturais globais permanecem não identificáveis de forma
+confiável sem sensores corporais ou câmeras?
+\end{quote}
+
+\section{Hipóteses}
+
+\begin{description}
+    \item[H1:] Sensores inerciais acoplados aos halteres permitem identificar
+    amplitude inadequada na elevação lateral.
+
+    \item[H2:] Sensores inerciais acoplados aos halteres permitem identificar
+    alterações de cadência.
+
+    \item[H3:] O uso de dois halteres instrumentados permite identificar
+    assimetria entre membros.
+
+    \item[H4:] Padrões de impulso ou balanço podem ser parcialmente
+    identificados por picos e irregularidades no sinal inercial.
+
+    \item[H5:] Erros posturais globais não são identificáveis de forma
+    confiável apenas com IMUs nos halteres.
+\end{description}
+
+\section{Objetivos}
+
+\subsection{Objetivo geral}
+
+Avaliar a viabilidade de sensores inerciais acoplados a halteres para
+identificar padrões corretos e erros específicos na execução da elevação
+lateral, em tempo quase real, considerando as limitações de observabilidade
+impostas pela ausência de sensores corporais ou câmeras.
+
+\subsection{Objetivos específicos}
+
+Para alcançar o objetivo geral, foram definidos os seguintes objetivos específicos:
+
+\begin{enumerate}
+    \item Desenvolver e caracterizar um protótipo composto por dois halteres instrumentados com IMUs, capazes de realizar aquisição sincronizada e transmissão dos sinais inerciais.
+    
+    \item Definir e executar um protocolo experimental intraindividual para a coleta de execuções da elevação lateral bilateral, contemplando o padrão de referência e variações controladas de amplitude, cadência, assimetria, impulso ou balanço e postura global.
+    
+    \item Construir um conjunto de dados rotulado e organizado por sessões independentes, contendo os sinais dos dois halteres, os metadados experimentais e as referências utilizadas na confirmação das condições executadas.
+    
+    \item Desenvolver um pipeline para calibração, sincronização, pré-processamento dos sinais e segmentação automática das repetições.
+    
+    \item Implementar métodos baseados em regras manuais e modelos de aprendizado de máquina como, por exemplo, Random Forest, Support Vector Machine e rede neural convolucional, para identificar os padrões de execução avaliados.
+    
+    \item Quantificar a capacidade dos métodos desenvolvidos de identificar alterações de amplitude, cadência, assimetria e impulso ou balanço, utilizando métricas de classificação e validação com separação entre sessões.
+    
+    \item Investigar os limites de observabilidade das IMUs acopladas exclusivamente aos halteres para a identificação de erros posturais globais, considerando uma referência externa de rotulagem.
+    
+    \item Comparar o desempenho, a estabilidade entre sessões e o custo computacional dos métodos baseados em regras e dos modelos de aprendizado de máquina.
+    
+    \item Mensurar a latência entre o término de uma repetição e a disponibilização do resultado, avaliando a viabilidade de geração de feedback em tempo quase real.
+
+\end{enumerate}
+
+A fim de assegurar que os objetivos específicos possam ser avaliados de
+forma objetiva, cada um deles foi associado a evidências e métricas
+observáveis. Essa associação estabelece a rastreabilidade entre os
+objetivos, os procedimentos metodológicos e os resultados apresentados
+posteriormente.
+
+A matriz de rastreabilidade não pressupõe que os métodos desenvolvidos
+alcançarão determinado desempenho mínimo. Sua finalidade é definir
+previamente como cada objetivo será verificado, permitindo que resultados
+positivos ou negativos contribuam para responder à questão de pesquisa.
+O Quadro~\ref{qua:rastreabilidade-objetivos} apresenta essa relação.
+
+\begin{quadro}[htb]
+    \caption{Matriz de rastreabilidade dos objetivos específicos}
+    \label{qua:rastreabilidade-objetivos}
+    \centering
+    \small
+    \begin{tabular}{|p{0.12\textwidth}|p{0.78\textwidth}|}
+        \hline
+        \textbf{Objetivo} & \textbf{Evidências e métricas de verificação} \\
+        \hline
+
+        OE1 &
+        Funcionamento dos dois halteres instrumentados; frequência efetiva
+        de amostragem; perda de pacotes; erro residual de sincronização;
+        estabilidade da comunicação e duração da operação contínua.
+        \\
+        \hline
+
+        OE2 &
+        Protocolo experimental documentado e executado; quantidade de
+        sessões, séries e repetições válidas em cada condição experimental.
+        \\
+        \hline
+
+        OE3 &
+        Conjunto de dados organizado por sessões e condições; quantidade de
+        repetições válidas; distribuição entre classes; presença dos
+        metadados experimentais e dos respectivos rótulos.
+        \\
+        \hline
+
+        OE4 &
+        Funcionamento do pipeline de calibração, sincronização,
+        pré-processamento e segmentação; precisão, revocação e medida F1
+        na identificação das repetições; erro temporal na determinação do
+        início e do término dos movimentos.
+        \\
+        \hline
+
+        OE5 &
+        Implementação e execução dos métodos baseados em regras manuais,
+        Random Forest, Support Vector Machine e rede neural convolucional,
+        utilizando as mesmas divisões de treinamento, validação e teste
+        quando aplicável.
+        \\
+        \hline
+
+        OE6 &
+        Matrizes de confusão e métricas de precisão, revocação, medida F1
+        e acurácia balanceada para amplitude, cadência, assimetria e
+        impulso ou balanço, avaliadas em sessões não utilizadas no
+        treinamento.
+        \\
+        \hline
+
+        OE7 &
+        Desempenho dos métodos na identificação dos erros posturais globais,
+        comparação com uma referência externa de rotulagem e análise da
+        estabilidade dos resultados entre sessões.
+        \\
+        \hline
+
+        OE8 &
+        Comparação entre os métodos quanto à medida F1 macro, acurácia
+        balanceada, variabilidade entre sessões, tempo de inferência e
+        recursos computacionais utilizados.
+        \\
+        \hline
+
+        OE9 &
+        Latência mediana, percentil 95, latência máxima e proporção de
+        repetições cujo resultado foi disponibilizado dentro do limite
+        definido para o feedback em tempo quase real.
+        \\
+        \hline
+    \end{tabular}
+
+    \begin{flushleft}
+        \footnotesize Fonte: elaboração própria.
+    \end{flushleft}
+\end{quadro}
+
+Essa matriz também orienta a organização das seções de Metodologia e
+Resultados. Cada objetivo deverá possuir pelo menos um procedimento de
+avaliação descrito na metodologia e uma evidência correspondente
+apresentada nos resultados. Posteriormente, a discussão retomará essas
+evidências para analisar o alcance dos objetivos e a sustentação das
+hipóteses formuladas.
+
+\newpage
+
+\section{Escopo e delimitações}
+\label{sec:escopo-delimitacoes}
+
+Este trabalho está delimitado à avaliação experimental do HalterCheck
+na elevação lateral bilateral com halteres. O estudo utiliza sessões
+repetidas realizadas pelo próprio pesquisador, sob condições previamente
+definidas de carga, postura inicial, amplitude e cadência. Os sinais
+analisados são produzidos pelas IMUs acopladas aos dois halteres, sendo
+cada repetição bilateral pareada adotada como unidade principal de
+classificação.
+
+Para manter o problema de pesquisa compatível com os recursos e o prazo
+disponíveis, estão explicitamente fora do escopo deste trabalho:
+
+\begin{itemize}
+    \item realizar generalizações sobre o desempenho do sistema para
+    outros indivíduos ou para uma população, uma vez que a avaliação é
+    intraindividual;
+
+    \item avaliar exercícios diferentes da elevação lateral bilateral ou
+    modalidades executadas com barras, máquinas, cabos ou outros
+    equipamentos;
+
+    \item avaliar os efeitos do exercício sobre força, hipertrofia,
+    condicionamento físico, dor ou risco de lesão;
+
+    \item realizar diagnóstico clínico, prescrição de treinamento ou
+    substituir a avaliação de profissionais de educação física,
+    fisioterapia ou medicina;
+
+    \item reconstruir integralmente a postura corporal ou estimar todos
+    os ângulos articulares do participante;
+
+    \item utilizar câmeras ou sensores corporais como entradas dos
+    métodos de identificação desenvolvidos. Uma referência externa
+    poderá ser utilizada exclusivamente para confirmar e rotular as
+    condições executadas;
+
+    \item estimar diretamente e com precisão clínica o ângulo de
+    abdução do ombro. Os ângulos definidos no protocolo serão utilizados
+    como referências operacionais para a produção e rotulagem das
+    condições experimentais;
+
+    \item avaliar todas as combinações possíveis entre erros. As
+    condições principais serão executadas isoladamente para evitar
+    classes combinadas com quantidade insuficiente de observações;
+
+    \item investigar de forma sistemática os efeitos de fadiga, variação
+    de carga, experiência de treinamento ou alterações anatômicas sobre
+    os sinais inerciais;
+
+    \item desenvolver modelos generalizáveis ou personalizados para
+    diferentes usuários, uma vez que não haverá dados de outros
+    participantes;
+
+    \item fornecer correções contínuas durante a execução da repetição.
+    O feedback em tempo quase real será considerado como o resultado
+    disponibilizado após a conclusão de cada repetição;
+
+    \item exigir que todo o processamento e a inferência sejam
+    executados nas ESP32. O processamento poderá ser realizado por um
+    servidor conectado aos dispositivos;
+
+    \item desenvolver um produto comercial final, incluindo aplicativo
+    para usuários, certificação, fabricação em escala, impermeabilização
+    ou validação de durabilidade em longo prazo.
+\end{itemize}
+
+Essas delimitações não impedem que alguns dos aspectos mencionados sejam
+explorados futuramente. Elas estabelecem os limites dentro dos quais os
+resultados e as conclusões desta pesquisa deverão ser interpretados.
+
+\section{Contribuições esperadas}
+
+As contribuições esperadas deste trabalho incluem:
+
+\begin{itemize}
+    \item o desenvolvimento de um protótipo de halter instrumentado com IMUs;
+    \item a definição de um protocolo experimental para coleta de dados;
+    \item a avaliação da latência para feedback em tempo quase real;
+    \item a comparação entre regras manuais, Random Forest, SVM e CNN;
+    \item a análise dos limites de identificação de erros usando sensores
+    apenas nos halteres;
+    \item a discussão sobre a viabilidade de personalização futura por usuário.
+\end{itemize}
+
+
+\section{Organização do trabalho}
+% Resumo dos capítulos seguintes.

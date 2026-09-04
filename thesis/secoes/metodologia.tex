@@ -1,0 +1,154 @@
+\section{Protocolo experimental}
+
+\subsection{Variáveis, tarefas avaliadas e unidade de análise}
+\label{subsec:tarefas-avaliadas}
+
+A variável independente principal deste estudo corresponde à condição de
+execução da elevação lateral bilateral. As variáveis dependentes incluem
+os sinais inerciais produzidos pelos halteres, os resultados das etapas
+de segmentação e classificação e a latência necessária para a geração
+do resultado. A carga utilizada, o posicionamento inicial, o plano de
+elevação, o número de repetições e os intervalos de descanso serão
+controlados conforme o protocolo experimental.
+
+A avaliação do HalterCheck foi organizada em tarefas consecutivas, mas
+com diferentes papéis dentro da pesquisa. A aquisição e a sincronização
+constituem requisitos técnicos para a obtenção dos sinais. A segmentação
+identifica os intervalos correspondentes às repetições. A contagem é
+obtida como resultado auxiliar da segmentação. A classificação dos
+padrões de execução constitui a tarefa científica principal. A latência
+é avaliada transversalmente para determinar a viabilidade de geração de
+feedback em tempo quase real.
+
+As unidades de análise variam conforme a tarefa. Na aquisição, a unidade
+corresponde a uma amostra produzida por uma IMU e associada ao seu
+dispositivo, sensor, número sequencial e instante de coleta. Na
+segmentação, a unidade corresponde a um intervalo temporal contendo uma
+repetição. Para a contagem, considera-se o conjunto de repetições de uma
+série. Na classificação, a unidade principal é uma repetição bilateral
+pareada, formada pelos sinais sincronizados dos halteres esquerdo e
+direito. O Quadro~\ref{qua:tarefas-avaliadas} sintetiza as tarefas, seus papéis e
+os respectivos critérios de avaliação.
+
+\begin{quadro}[htb]
+    \caption{Tarefas avaliadas no HalterCheck}
+    \label{qua:tarefas-avaliadas}
+    \centering
+    \small
+    \begin{tabular}{|p{0.19\textwidth}|p{0.25\textwidth}|p{0.45\textwidth}|}
+        \hline
+        \textbf{Tarefa} &
+        \textbf{Papel no estudo} &
+        \textbf{Critérios de avaliação} \\
+        \hline
+
+        Aquisição e sincronização &
+        Requisito técnico &
+        Frequência efetiva de amostragem, perdas, duplicações, pacotes
+        fora de ordem, variação dos intervalos de amostragem e erro
+        residual de sincronização entre os halteres.
+        \\
+        \hline
+
+        Segmentação &
+        Tarefa intermediária &
+        Precisão, revocação e medida F1 na identificação das repetições,
+        além do erro temporal na determinação de seus instantes inicial
+        e final.
+        \\
+        \hline
+
+        Contagem &
+        Resultado auxiliar &
+        Erro absoluto entre a quantidade prevista e a quantidade de
+        repetições de referência, bem como a proporção de séries com
+        contagem exata.
+        \\
+        \hline
+
+        Classificação &
+        Tarefa científica principal &
+        Acurácia balanceada, precisão, revocação, medida F1 por classe,
+        medida F1 macro e matrizes de confusão, utilizando validação com
+        separação entre sessões.
+        \\
+        \hline
+
+        Observabilidade postural &
+        Análise associada à hipótese H5 &
+        Desempenho relativo a uma referência externa de rotulagem e
+        estabilidade da identificação dos erros posturais globais em
+        sessões não utilizadas no treinamento.
+        \\
+        \hline
+
+        Latência &
+        Avaliação transversal &
+        Latência mediana, percentil 95, valor máximo e proporção de
+        repetições cujo resultado foi disponibilizado em até um segundo
+        após o término do movimento.
+        \\
+        \hline
+    \end{tabular}
+
+    \begin{flushleft}
+        \footnotesize Fonte: elaboração própria.
+    \end{flushleft}
+\end{quadro}
+
+A tarefa de classificação será decomposta de acordo com as hipóteses da
+pesquisa. Para H1, serão consideradas as condições de amplitude adequada,
+posição inicial próxima às coxas, elevação insuficiente e elevação
+excessiva. Para H2, serão avaliadas as condições de cadência de
+referência, acelerada e reduzida. Para H3, serão comparadas execuções
+simétricas e assimétricas. Para H4, serão avaliadas execuções com e sem
+uso deliberado de impulso ou balanço.
+
+Esses problemas serão avaliados separadamente, evitando que a expansão
+do número de combinações entre erros produza classes com poucas
+observações. As condições experimentais serão inicialmente executadas de
+forma isolada, de modo que cada repetição possua um padrão principal
+previamente definido.
+
+A hipótese H5 será tratada como análise dos limites de observabilidade do
+sistema, e não como uma classe principal de feedback. Os erros posturais
+globais serão confirmados por uma referência externa utilizada
+exclusivamente para rotulagem, sem que essa informação seja fornecida
+como entrada aos métodos de classificação. Dessa forma, será possível
+investigar até que ponto esses erros deixam manifestações indiretas nos
+sinais dos halteres.
+
+Os resultados relacionados à H5 serão interpretados como limitações da
+configuração sensorial, do protocolo e dos métodos avaliados. Portanto,
+um baixo desempenho não será apresentado como prova de impossibilidade
+universal de identificação de erros posturais por halteres
+instrumentados.
+
+\subsection{Operacionalização das condições de amplitude}
+\label{subsec:condicoes-amplitude}
+
+Para avaliar a hipótese H1, a amplitude da elevação lateral bilateral foi caracterizada pelos ângulos observados no início do movimento e no ponto de máxima elevação. Foram definidas uma condição de execução
+adequada e três condições de erro: posição inicial inadequada, elevação insuficiente e elevação excessiva.
+
+Na execução adequada, o movimento deveria iniciar com os membros superiores afastados aproximadamente entre $10^\circ$ e $15^\circ$ do tronco e alcançar um ângulo próximo de $90^\circ$. Para fins de rotulagem, foram consideradas adequadas as repetições cujo ângulo máximo
+se encontrasse entre $85^\circ$ e $95^\circ$.
+
+Na condição de posição inicial inadequada, os halteres deveriam permanecer encostados ou muito próximos às coxas, correspondendo a um ângulo inicial de até $5^\circ$. O restante do movimento deveria seguir
+a amplitude prescrita para a execução adequada.
+
+Na condição de elevação insuficiente, o movimento deveria iniciar entre $10^\circ$ e $15^\circ$, mas ser interrompido antes de atingir $60^\circ$. Na condição de elevação excessiva, o movimento deveria ultrapassar de forma deliberada a altura dos ombros, utilizando-se como alvo experimental um ângulo máximo igual ou superior a $105^\circ$.
+
+As condições de erro foram executadas separadamente, mantendo-se constantes, na medida do possível, a carga, a cadência, a postura, a posição dos cotovelos e as demais características do movimento. Repetições situadas nas zonas intermediárias entre as faixas estabelecidas foram consideradas ambíguas e não utilizadas como exemplos induzidos das classes.
+
+Os ângulos descritos constituem definições operacionais do protocolo experimental e não pretendem estabelecer critérios clínicos universais para a execução da elevação lateral.
+
+\subsection{Padronização do plano de elevação}
+\label{subsec:plano-elevacao}
+
+Além da amplitude angular, foi padronizado o plano de execução do movimento. A elevação lateral foi realizada no plano escapular, com os membros superiores projetados aproximadamente $30^\circ$ à frente do
+plano frontal do corpo. Essa orientação foi mantida em todas as condições experimentais, de modo que as alterações de amplitude, cadência e simetria fossem avaliadas sem a introdução deliberada de diferenças no
+plano de elevação.
+
+O plano de elevação não foi considerado uma variação de amplitude, mas uma característica distinta da trajetória do movimento. Sua possível identificação pelos sinais inerciais foi reservada para uma análise
+exploratória, considerando as limitações do sistema sensorial utilizado para estimar orientação absoluta no plano horizontal.
+

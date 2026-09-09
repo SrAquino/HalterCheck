@@ -1,0 +1,121 @@
+\chapter{METODOLOGIA}
+\label{cap:metodologia}
+
+Nesta seção serão apresentados os processos, técnicas e meios que serão utilizados no desenvolvimento do projeto, desde a concepção do protótipo de halter inteligente até a validação do sistema de monitoramento e avaliação da execução dos exercícios. A metodologia foi estruturada de forma que cada etapa do trabalho contribua diretamente para o alcance dos objetivos propostos, permitindo uma análise sistemática dos resultados obtidos.
+
+
+\section{Visão Geral da Abordagem}
+
+O presente estudo caracteriza-se como uma pesquisa de natureza aplicada, uma vez que busca gerar conhecimento com o objetivo de desenvolver uma solução prática voltada para a melhoria da execução de exercícios de força com halteres, integrando sensores inerciais para coleta e análise de dados de movimento. A abordagem adotada é predominantemente quantitativa, pois envolve a mensuração objetiva de variáveis biomecânicas e a utilização de métodos estatísticos para avaliar o desempenho do sistema. Além disso, será empregada uma abordagem experimental, conduzindo testes controlados em ambiente de laboratório para validar a precisão e a confiabilidade dos algoritmos desenvolvidos. O método utilizado seguirá um estudo de caso controlado, no qual um grupo de participantes executará exercícios específicos com o protótipo de halter inteligente, permitindo a coleta de dados em condições padronizadas e a comparação dos resultados obtidos pelo sistema com a avaliação de especialistas. Essa estrutura metodológica possibilita não apenas a verificação da viabilidade técnica do sistema, mas também a análise de seu potencial de aplicação prática em contextos reais de treinamento.
+
+\section{Etapas do Desenvolvimento}
+
+A condução deste trabalho seguirá um conjunto de etapas experimentais e computacionais organizadas de forma a garantir consistência metodológica e viabilidade prática. Inicialmente, será desenvolvido um protótipo de halteres instrumentados com sensores inerciais (IMUs), dimensionado para manter peso e ergonomia próximos aos equipamentos convencionais utilizados em academias. O sensor será fixado de modo a não comprometer a estabilidade do exercício e, ao mesmo tempo, assegurar a qualidade do sinal coletado.  
+
+A fase de coleta de dados será realizada em ambiente controlado (laboratório de treinamento de força ou espaço de academia supervisionado), a fim de reduzir variáveis externas que possam comprometer a qualidade do registro. Estima-se a participação de aproximadamente 10 a 15 voluntários, distribuídos em diferentes perfis (sexo, idade e nível de experiência em treinamento), permitindo avaliar a robustez do sistema frente a diferentes características individuais. Serão adotados critérios de inclusão como ausência de lesões musculoesqueléticas recentes e disponibilidade para participar de todas as sessões de coleta. 
+
+O protocolo experimental contemplará a realização de séries padronizadas, com repetições corretas e incorretas, incluindo variações intencionais de cadência (rápida, lenta) e de postura (desalinhamento do cotovelo, amplitude incompleta). Essas variações serão fundamentais para treinar o algoritmo a distinguir execuções adequadas das inadequadas. Durante o processo, o modo treinador do aplicativo permitirá a rotulação manual por especialistas, registrando não apenas a classificação binária (correta/incorreta), mas também o tipo de erro cometido.  
+
+Os dados coletados serão processados em etapas de filtragem de ruído, segmentação das repetições e extração de características temporais e frequenciais. Posteriormente, diferentes algoritmos de aprendizado de máquina serão implementados e comparados. A análise contemplará desde métodos clássicos, como Random Forest e SVM, até arquiteturas baseadas em aprendizado profundo, como Redes Convolucionais (CNN) e LSTM, considerando o equilíbrio entre desempenho e custo computacional.  
+
+Para avaliar os modelos, serão utilizadas métricas padronizadas em problemas de classificação, como acurácia, precisão, revocação (recall) e F1-score. Também será medida a latência do sistema na geração do feedback em tempo real, uma vez que atrasos podem comprometer a usabilidade. A validação cruzada será aplicada para reduzir viés nos resultados, e a análise estatística incluirá comparação de médias entre diferentes grupos de usuários, de forma a avaliar o impacto de fatores individuais na acurácia do sistema.  
+
+Por fim, o sistema será integrado ao aplicativo móvel, permitindo operação em dois modos: (i) \textit{usuário}, no qual o praticante recebe feedback automático em tempo real sobre sua execução, e (ii) \textit{treinador}, no qual um profissional acompanha o exercício e rotula manualmente as execuções. Essa estratégia possibilita a retroalimentação do modelo com dados personalizados, contornando limitações de generalização identificadas na literatura e aumentando a aplicabilidade prática da solução.
+
+\subsection{Materiais e Ferramentas}
+
+A implementação do sistema proposto demandará a utilização de um conjunto integrado de componentes de hardware, software e instrumentos de apoio para coleta e análise dos dados. O núcleo do protótipo será constituído por sensores inerciais (IMUs), capazes de registrar aceleração linear, velocidade angular e, quando aplicável, orientação absoluta no espaço. Esses sensores serão acoplados aos halteres de forma segura e discreta, assegurando que não interfiram na pegada ou na execução natural do movimento. Será selecionado um microcontrolador com capacidade de processamento suficiente para realizar a leitura dos sensores e a transmissão dos dados, preferencialmente com conectividade sem fio integrada, como Wi-Fi ou Bluetooth, a fim de facilitar a comunicação com o dispositivo responsável pelo processamento e análise.
+
+O firmware embarcado será desenvolvido para garantir a aquisição contínua e confiável dos dados dos sensores, bem como o seu armazenamento temporário e envio para análise externa. Para o processamento e análise dos sinais, será utilizado um ambiente de programação que permita a manipulação eficiente de dados e a implementação de algoritmos de aprendizado de máquina, como Python, com bibliotecas especializadas (pandas, NumPy, scikit-learn) ou, alternativamente, MATLAB, caso seja necessário um suporte a operações de análise de sinais.
+
+Para a interface de feedback, serão exploradas soluções simples e funcionais, como aplicativos móveis ou interfaces gráficas em desktop, capazes de apresentar ao usuário informações sobre a qualidade de cada repetição e orientações para a correção técnica. Ferramentas de versionamento de código, como Git, serão empregadas para organizar o desenvolvimento e manter a rastreabilidade das alterações. O conjunto de materiais e ferramentas será definido buscando equilíbrio entre desempenho, custo e viabilidade de implementação, garantindo que o protótipo seja funcional e replicável em estudos posteriores.
+
+\subsection{Arquitetura do Sistema}
+
+O sistema inteligente proposto é concebido em uma arquitetura modular, distribuída em três componentes principais interconectados: os Halteres Instrumentados, a Base de Carregamento/Inicialização e a Aplicação Móvel, conforme ilustrado na Figura \ref{fig:arquitetura}. Essa estrutura permite portabilidade, não invasividade e capacidade de processamento em tempo real, contornando limitações de soluções puramente vestíveis ou baseadas em visão computacional.
+
+\begin{figure}[H]
+	\centering
+	\caption{Arquitetura do Sistema de Halter Inteligente}
+	\includegraphics[width=0.4\textwidth]{imgs/imagens/Arquitetura/1.png}
+	\fonte{Autor}
+	\label{fig:arquitetura}
+\end{figure}
+
+
+O componente de hardware central consiste nos Halteres Instrumentados, ilustrado na Figura \ref{fig:arquiteturaHalter}. Cada halter incorpora um microcontrolador responsável pela aquisição, pré-proces\-samento e transmissão dos dados brutos, conectado a pelo menos duas Unidades de Medição Inercial (IMUs) que registram aceleração linear e velocidade angular em múltiplos eixos. A presença de múltiplas IMUs aumenta a riqueza dos dados cinemáticos, para a avaliação da qualidade da execução dos exercícios. O microcontrolador é alimentado por uma bateria interna e possui capacidade de comunicação sem fio, utilizando tecnologias como Bluetooth ou Wi-Fi, de modo a transmitir os dados coletados para o componente de processamento externo, minimizando a necessidade de hardware vestível e maximizando o conforto do usuário.
+
+\begin{figure}[H]
+	\centering
+	\caption{Arquitetura do Halter Inteligente}
+	\includegraphics[width=0.4\textwidth]{imgs/imagens/Arquitetura/2.png}
+	\fonte{Autor}
+	\label{fig:arquiteturaHalter}
+\end{figure}
+
+O sistema de processamento adota uma abordagem adaptativa, distribuída entre o \textit{smartphone} e a Base de Carregamento/Inicialização. A Base, ilustrada na Figura \ref{fig:arquiteturaBase}, atua como ponto de repouso e inicialização do sistema, podendo também funcionar como unidade de processamento, dependendo das demandas do algoritmo. Em um primeiro plano, o processamento é realizado diretamente na aplicação móvel do smartphone, que recebe os dados dos halteres via comunicação sem fio, executa os algoritmos de aprendizado de máquina e fornece feedback automático em tempo real ao usuário. Nesse cenário, a Base é utilizada principalmente para carregamento da bateria dos halteres e para definir a posição inicial destes, garantindo a calibração adequada dos sensores. Caso o processamento no smartphone apresente limitações de desempenho, como alto consumo de energia, superaquecimento ou latência elevada, a Base passa a hospedar e executar os algoritmos em uma plataforma embarcada mais potente, como um Raspberry Pi, enviando ao smartphone apenas os resultados da avaliação, que atua como interface de usuário.
+
+
+A Aplicação Móvel, ilustrada pela Figura \ref{fig:arquiteturaApp}, constitui a interface primária do sistema, conectando-se aos halteres e ao componente de processamento, seja ele o próprio smartphone ou a Base. A aplicação permite receber e exibir feedback em tempo real sobre a qualidade da execução (Modo Usuário) e, simultaneamente, possibilita a comunicação com o servidor para monitoramento das atividades e o compartilhamento e rotulação de dados para o treino do algoritmo (Modo Treinador). Essa dualidade de modos serve para refinar o modelo de IA com base em avaliações humanas especializadas, superando limitações de generalização e personalizando o sistema às características individuais de cada praticante.
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Arquiteturas com opções A e B}
+    \subfigure[Arquitetura da Base]{%
+       \includegraphics[width=0.37\textwidth]{imgs/imagens/Arquitetura/3.png}
+        \label{fig:arquiteturaBase}
+    }
+    \hfill
+    \subfigure[Arquitetura da aplicação móvel]{%
+        \includegraphics[width=0.37\textwidth]{imgs/imagens/Arquitetura/4.png}
+        \label{fig:arquiteturaApp}
+        }
+    \fonte{Autor}
+\end{figure}
+
+
+\subsection{Procedimentos Éticos}
+
+A condução deste estudo seguirá integralmente as normas éticas aplicáveis à pesquisa com seres humanos, conforme estabelecido pela Resolução nº 466/12 do Conselho Nacional de Saúde e pelas diretrizes institucionais da Universidade Federal de Lavras. Antes do início da coleta de dados, o projeto será submetido ao Comitê de Ética em Pesquisa (\gls{cep}) para avaliação e aprovação formal. A participação dos voluntários ocorrerá apenas após a assinatura do Termo de Consentimento Livre e Esclarecido (\gls{tcle}), no qual serão apresentados de forma clara e acessível os objetivos do estudo, os procedimentos a serem realizados, os possíveis riscos e benefícios, bem como as garantias de confidencialidade e a liberdade para desistir a qualquer momento, sem qualquer prejuízo.
+
+Os dados coletados serão tratados de forma a preservar a privacidade e o anonimato dos participantes. As informações pessoais não serão vinculadas aos registros dos sensores, sendo atribuídos códigos de identificação para todo o material coletado. O armazenamento dos dados será realizado em ambiente seguro, com acesso restrito à equipe de pesquisa, e os registros serão mantidos pelo tempo necessário para a análise e publicação dos resultados.
+
+Adicionalmente, serão adotados cuidados para minimizar qualquer risco físico durante a participação, como a supervisão constante por um profissional qualificado em educação física durante a execução dos exercícios, o uso de cargas compatíveis com a capacidade dos voluntários e a interrupção imediata da atividade em caso de desconforto, dor ou fadiga excessiva. Essas medidas visam assegurar que a pesquisa seja conduzida de maneira segura, respeitosa e transparente, garantindo a integridade física e moral de todos os envolvidos.
+
+\subsection{Protocolo Experimental}
+
+A coleta de dados será conduzida de acordo com um protocolo experimental estruturado para garantir a qualidade e a confiabilidade das informações obtidas. Participarão do estudo entre três e dez voluntários, número considerado adequado para a fase inicial de testes e suficiente para permitir a obtenção de um conjunto de dados representativo para treinamento e validação dos algoritmos. Serão incluídos indivíduos adultos, com idade mínima de dezoito anos, sem histórico recente de lesões musculoesqueléticas que possam comprometer a execução segura dos exercícios propostos. A participação estará aberta a pessoas com diferentes níveis de experiência em treinamento de força, desde iniciantes até praticantes experientes, de modo a aumentar a diversidade do padrão de execução registrado. Serão excluídos do estudo indivíduos com condições médicas que contraindiquem a prática de exercícios de força, gestantes ou qualquer pessoa que apresente limitações físicas que impeçam a execução correta dos movimentos.
+
+Para a fase experimental, serão selecionados de um a três exercícios com halteres que apresentem movimentos bem definidos e relevância tanto na prática esportiva quanto na incidência de erros de execução. A escolha será feita com base em critérios biomecânicos e na consulta à literatura e a profissionais de educação física, priorizando-se exercícios que envolvam articulações e grupos musculares frequentemente trabalhados, como a flexão de cotovelo (rosca bíceps) e a elevação lateral dos ombros. Cada participante executará repetições corretas, de acordo com a técnica estabelecida por um especialista, e repetições propositalmente incorretas, simulando erros comuns observados na prática.
+
+A coleta será realizada em ambiente controlado, garantindo condições padronizadas de espaço e segurança. Durante todo o processo, um profissional qualificado estará presente para supervisionar a execução, corrigir eventuais desvios e interromper o exercício em caso de qualquer sinal de desconforto ou fadiga excessiva. As cargas utilizadas serão previamente ajustadas à capacidade individual de cada participante, de modo a evitar sobrecarga e preservar a integridade física.
+
+O registro dos dados será feito por meio dos sensores inerciais acoplados aos halteres. Para cada exercício, será definida uma quantidade mínima de repetições que assegure a obtenção de amostras suficientes para as etapas subsequentes de processamento, análise e desenvolvimento dos modelos de classificação.
+
+
+\subsection{Processamento e Análise de Dados}
+
+Os dados obtidos a partir dos sensores inerciais serão inicialmente submetidos a um processo de pré-tratamento para garantir a qualidade e a consistência das informações antes da análise. Essa etapa incluirá a verificação de integridade dos registros, a aplicação de filtros digitais adequados, como o filtro passa-baixa de Butterworth, para reduzir ruídos de alta frequência decorrentes de vibrações e pequenas oscilações não relacionadas ao movimento principal do exercício.
+
+Após o pré-tratamento, os sinais serão segmentados para isolar as repetições individuais, utilizando métodos baseados em limiares de aceleração, velocidade angular ou orientação, conforme a característica predominante do movimento analisado. Cada repetição segmentada será então processada para a extração de características relevantes que descrevam a execução, como amplitude do movimento, tempo total de execução, velocidade média e máxima, variações angulares, picos de aceleração e padrões de simetria. Essas variáveis fornecerão um conjunto de atributos quantitativos que poderão ser usados tanto para a avaliação da qualidade da execução quanto para a construção de modelos preditivos.
+
+Para a etapa de análise, serão desenvolvidos e testados diferentes algoritmos de classificação com base em técnicas de aprendizado de máquina, como máquinas de vetores de suporte (SVM), florestas aleatórias (Random Forest) e redes neurais artificiais de arquitetura simples. O treinamento e a validação dos modelos seguirão uma abordagem de validação cruzada k-fold, permitindo avaliar a capacidade de generalização das soluções propostas. As métricas de desempenho, como acurácia, precisão, sensibilidade, especificidade e F1-score, serão calculadas para comparar os resultados obtidos.
+
+O processamento e a análise dos dados serão realizados em ambiente computacional apropriado, com a utilização de linguagens e bibliotecas especializadas para manipulação e modelagem de dados, como Python, em conjunto com pacotes como NumPy, pandas, scikit-learn e SciPy. Essa infraestrutura permitirá não apenas a implementação dos algoritmos, mas também a visualização gráfica dos sinais e resultados, facilitando a interpretação dos dados e a identificação de padrões associados à execução correta ou incorreta dos exercícios.
+
+\subsection{Integração do Sistema e Feedback ao Usuário}
+
+Após o desenvolvimento e validação dos algoritmos de classificação, será realizada a integração de todos os componentes do sistema, combinando o protótipo de halter inteligente, o módulo de aquisição e transmissão de dados, o ambiente de processamento e a interface de apresentação dos resultados. Essa integração será projetada para operar de forma contínua, permitindo que os dados capturados pelos sensores inerciais sejam enviados em tempo real ou quase em tempo real para o módulo de análise, onde serão processados e avaliados de acordo com os parâmetros estabelecidos.
+
+A interface de feedback ao usuário será desenvolvida com foco na clareza e objetividade, evitando sobrecarga de informações e priorizando orientações práticas para correção da execução. Dependendo da configuração escolhida, o retorno poderá ser visual, exibido em um aplicativo móvel ou interface de desktop, ou auditivo, por meio de sinais sonoros ou mensagens verbais. O objetivo é que o praticante receba informações imediatas sobre a qualidade da execução, com indicações simples, como confirmação de movimento correto ou alerta para erros específicos, acompanhadas de orientações sobre como corrigi-los.
+
+Além do feedback em tempo real, o sistema poderá fornecer relatórios sumarizados ao final de cada sessão, contendo estatísticas de desempenho, histórico de execução e pontos recorrentes de erro, possibilitando que o usuário acompanhe sua evolução ao longo do tempo. A arquitetura da integração será planejada de forma modular, permitindo futuras expansões, como a inclusão de novos exercícios ou a adaptação do sistema para uso com outros equipamentos de treino. Esse caráter escalável garantirá que a solução proposta possa evoluir para atender a diferentes perfis de usuários e contextos de aplicação, mantendo a viabilidade técnica e a relevância prática identificadas durante a pesquisa.
+
+\subsection{ Validação e Avaliação do Desempenho do Sistema}
+
+A validação do sistema será conduzida por meio de testes experimentais controlados, comparando-se a avaliação automática gerada pelo protótipo de halter inteligente com a avaliação de referência realizada por um especialista em treinamento de força. O conjunto de dados coletado durante o protocolo experimental será dividido em subconjuntos distintos para treinamento e teste dos algoritmos, de modo a evitar viés e assegurar a independência entre as amostras usadas no desenvolvimento e na validação.
+
+A análise de desempenho envolverá o cálculo de métricas amplamente utilizadas em problemas de classificação, incluindo acurácia, precisão, sensibilidade, especificidade e F1-score. Essas métricas permitirão avaliar tanto a capacidade do sistema de identificar corretamente execuções adequadas quanto a sua habilidade de detectar erros de forma consistente. Adicionalmente, serão realizadas análises de correlação entre as medidas fornecidas pelo sistema e as avaliações do especialista, com o objetivo de verificar o grau de concordância entre ambas as abordagens.
+
+Os testes serão conduzidos em condições controladas, mas mantendo-se a execução natural dos movimentos para garantir a validade ecológica dos resultados. Eventuais discrepâncias identificadas entre a avaliação automática e a humana serão analisadas qualitativamente, buscando compreender as limitações do sistema e possíveis melhorias. Ao final, será feita uma síntese dos pontos fortes e fracos do protótipo, acompanhada de recomendações para ajustes técnicos e funcionais, de forma a orientar a evolução da solução para futuras aplicações em ambientes reais de treinamento e monitoramento.

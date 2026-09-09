@@ -1,0 +1,5 @@
+# Resumo
+
+A atividade física, especialmente o treinamento de força, é essencial para a saúde e prevenção de doenças. Entretanto, a execução incorreta de exercícios, muitas vezes realizada sem supervisão, pode gerar lesões e comprometer os resultados. Este trabalho propõe o desenvolvimento de um sistema inteligente baseado em halteres equipados com sensores inerciais (IMUs) para monitorar e corrigir a técnica de exercícios de força. A proposta visa fornecer feedback automático ao usuário, permitindo identificar erros de execução e melhorar a qualidade do movimento, sem a necessidade de múltiplos sensores vestíveis. A metodologia inclui a construção de um protótipo de halter inteligente, coleta e análise de dados, desenvolvimento de algoritmos de avaliação e validação experimental. Espera-se que o sistema contribua para a segurança, eficácia e acessibilidade do treinamento de força, oferecendo uma alternativa prática e inovadora ao acompanhamento presencial. 
+
+**Palavras-chave:** sensores inerciais; IMU; halteres; monitoramento; correção; aprendizado de máquina; feedback automático.

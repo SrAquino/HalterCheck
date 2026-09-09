@@ -1,0 +1,46 @@
+\chapter{CRONOGRAMA}
+\label{cap:cronograma}
+
+\section{Atividades e Etapas}
+
+O cronograma apresentado na Tabela \ref{tab:cronograma} organiza as atividades do projeto de desenvolvimento de um sistema inteligente para monitoramento de exercícios de força com halteres equipados com IMUs, distribuídas ao longo do período de novembro de 2025 a setembro de 2026. Inicialmente, nos meses de novembro e dezembro, está previsto o desenvolvimento do protótipo inicial dos halteres e a definição do exercício de força a ser monitorado, juntamente com a elaboração do protocolo experimental de coleta de dados, atendendo aos objetivos específicos de projetar e construir o equipamento e preparar a metodologia de experimentação. A coleta de dados será realizada entre fevereiro e abril de 2026, permitindo que informações reais de execução dos exercícios sejam obtidas sob condições controladas, enquanto o processamento e a análise dos dados ocorrerão principalmente em março e abril, visando extrair características relevantes para a avaliação da execução.
+
+O desenvolvimento dos algoritmos de avaliação da qualidade dos exercícios se estende de dezembro de 2025 a março de 2026, assegurando que o sistema esteja preparado para fornecer feedback automático. A integração desses algoritmos ao sistema e o desenvolvimento do feedback em tempo real estão programados para abril e maio, permitindo a transição para funcionalidades completas do sistema. Entre maio e julho, será implementado o modo usuário e o modo treinador no aplicativo móvel, facilitando a interação tanto de usuários comuns quanto de profissionais de saúde que acompanhem a execução. A validação experimental do sistema ocorrerá em agosto, confrontando os resultados obtidos automaticamente com a avaliação de especialistas, enquanto o reconhecimento de exercícios adicionais, explorado como etapa futura, está previsto para setembro. Por fim, a documentação de todo o processo, incluindo relatórios de qualificação, artigos e a dissertação final, será realizada de forma contínua ao longo de todo o período, garantindo registro detalhado e disseminação dos resultados obtidos, em conformidade com os objetivos gerais e específicos do projeto.
+
+\begin{quadro}[H]
+\centering
+\caption{Cronograma de atividades do projeto (Nov/2025 – Set/2026)}
+\label{tab:cronograma}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Atividade} & \textbf{Nov} & \textbf{Dez} & \textbf{Jan} & \textbf{Fev} & \textbf{Mar} & \textbf{Abr} & \textbf{Mai} & \textbf{Jun} & \textbf{Jul} & \textbf{Ago} & \textbf{Set} \\ \hline
+Protótipo inicial e definição de exercício & X & X &   &   &   &   &   &   &   &   &   \\ \hline
+Desenvolvimento do protocolo de coleta     & X  & X & & &   &   &   &   &   &   &   \\ \hline
+Coleta de dados                            &   &   & & X & X & X &   &   &   &   &   \\ \hline
+Processamento e análise dos dados          &   &   &   &  & X & X & &   &   &   &   \\ \hline
+Desenvolvimento dos algoritmos             &   & X & X & X & X &  &   &  &  &   &   \\ \hline
+Integração ao sistema (feedback automático)&   &   &   &   &   & X  & X & & &   &   \\ \hline
+Modo usuário e modo treinador              &   &   &   &   &   &   & X  & X & X & &   \\ \hline
+Validação do sistema                       &   &   &   &   &   &   &   &   &   & X &   \\ \hline
+Reconhecimento de exercício                &   &   &   &   &   &   &   &   &   &   & X \\ \hline
+Documentação (qualificação, artigos, dissertação) & X & X  & X  & X  & X  & X  & X  & X  & X  & X & X \\ \hline
+\end{tabular}
+\end{quadro}
+
+
+\section{Riscos e Contingências}
+
+O desenvolvimento do protótipo de halteres instrumentados com IMUs envolve riscos relacionados à integridade e funcionalidade do hardware. Possíveis falhas nos sensores, dificuldades na integração dos módulos ou problemas mecânicos podem comprometer a coleta de dados. Para contornar essas situações, o projeto inclui testes individuais dos componentes antes da integração completa, manutenção de peças de reposição e reserva de tempo adicional no cronograma para ajustes no protótipo.
+
+A coleta de dados com participantes apresenta riscos de baixa adesão, cancelamentos ou indisponibilidade de voluntários. O planejamento prevê a manutenção de uma lista de participantes reserva, flexibilização de horários de coleta e adoção de protocolos simplificados, de forma a garantir a execução das sessões experimentais mesmo diante de imprevistos.
+
+A qualidade e consistência dos dados podem ser comprometidas por registros incompletos ou ruidosos, afetando a análise e o desenvolvimento dos algoritmos de avaliação. O projeto contempla a implementação de filtros e métodos de validação desde as etapas iniciais, bem como a possibilidade de coletas adicionais caso sejam identificadas inconsistências nos dados.
+
+O desenvolvimento dos algoritmos de avaliação envolve riscos relacionados à precisão e robustez do sistema. Para reduzir esses riscos, os algoritmos serão desenvolvidos de forma incremental, com versões simplificadas testadas inicialmente e exploração de técnicas alternativas, incluindo o uso de datasets simulados para testes preliminares.
+
+A integração dos algoritmos ao sistema e a implementação do feedback em tempo real podem enfrentar dificuldades técnicas, como problemas de comunicação entre sensores, aplicativo e software de processamento. Cada módulo será testado de forma independente e validado parcialmente antes da integração completa, garantindo maior confiabilidade na implementação final.
+
+A validação do sistema, comparando os resultados automáticos com a avaliação de especialistas, envolve riscos devido a possíveis divergências entre os métodos. Serão definidas métricas alternativas de comparação e, se necessário, o número de especialistas será ampliado para assegurar a consistência da avaliação.
+
+Atrasos no cronograma podem ocorrer devido à indisponibilidade de recursos, atrasos de fornecedores ou conflitos com outras atividades acadêmicas. O planejamento inclui buffers de tempo, priorização das atividades críticas e revisões periódicas do cronograma. Limitações de software ou problemas de compatibilidade entre dispositivos serão tratados com a definição de versões estáveis das bibliotecas utilizadas e realização de testes em diferentes plataformas antes da implementação final.

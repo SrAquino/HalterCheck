@@ -1,0 +1,355 @@
+\documentclass{templufla}          % classe base para a monografia
+
+%==============================================================================
+% Utilizacao de pacotes
+\usepackage{setspace}			 % necessário para usar essa versao do abntex e hyperref
+\usepackage[T1]{fontenc}         % usa fontes postscript com acentos
+\usepackage[brazil]{babel}       % hifenização e títulos em português do Brasil
+\usepackage[utf8]{inputenc}     % permite edição direta com acentos
+\usepackage{amsmath}             % pacote da AMS para Matemática Avançada
+\usepackage{amssymb}             % símbolos extras da AMS
+\usepackage{latexsym}            % símbolos extras do LaTeX
+\usepackage{graphicx}            % para inserção de gráficos
+\usepackage{listings}            % para inserção de código
+\usepackage{fancyvrb}            % para inserção de saídas de comandos
+%\usepackage{enumerate}           % para personalizar lista enumeradas 
+											%(incluso na classe)
+\usepackage{longtable}           % para tambelas muito grandes NOVO!!!!
+
+\usepackage{colortbl} % cores em tabelas
+\newcolumntype{Z}{|>{\columncolor[gray]{0.9}}l|} %cor cinza em células
+%\usepackage{array} % já incluso na classe
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\usepackage{multirow} % para juntar duas linhas em uma só
+
+\usepackage{multicol} % para uso de várias colunas
+
+% cores para os links cruzados
+\usepackage{xcolor}
+\definecolor{rltred}{rgb}{0.2,0,0}
+\definecolor{rltgreen}{rgb}{0,0.2,0}
+\definecolor{rltblue}{rgb}{0,0,0.2}
+
+\usepackage[colorlinks=true,
+            urlcolor=rltblue,       % \href{...}{...} external (URL)
+            filecolor=rltgreen,     % \href{...} local file
+            linkcolor=rltred,       % \ref{...} and \pageref{...}
+            citecolor=rltgreen,
+            pdftitle={Template de Trabalhos acadêmcios UFLA},
+          pdfauthor={João Autor},
+          pdfsubject={Template de Trabalhos acadêmcios UFLA.},
+          pdfkeywords={Comunicação Científica. 2. Pesquisa . 3. Pesquisa Científica. 
+ 					 4. Redação. 5. Monografia.}%
+]{hyperref} % para referência cruzadas
+%\usepackage{hyperref}            % para referência cruzadas
+\usepackage{subfigure}           % figuras dentro de figuras
+\usepackage{caption}            % remodelando o formato dos títulos de 
+                                 % tabelas e figuras
+
+% configuração padrão do listings   
+\lstset{
+   extendedchars=true,
+   tabsize=3,
+   basicstyle=\footnotesize\ttfamily,
+   stringstyle=\em,
+   showstringspaces=false ,
+   inputencoding=utf8,
+   backgroundcolor=\color{black!5},
+   literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+   			{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+   			{â}{{\^a}}1 {ê}{{\^e}}1 {ô}{{\^o}}1
+   			{Â}{{\^A}}1 {Ê}{{\^E}}1 {Ô}{{\^O}}1
+            {ã}{{\~a}}1 {õ}{{\~o}}1 {ẽ}{{\~e}}1 
+            {ç}{{\c{c}}}1
+            {à}{{\`{a}}}1{À}{{\`{A}}}1,
+}
+
+% para referências de acordo com a ABNT
+% precisa instalar o abntex2 antes!!!
+% http://abntex.codigolivre.org.br/
+% comente se pretende usar outro padrão
+
+%abnt-emphasize=bf coloca o título das bibliografias em negrito
+%abnt-thesis-year=both
+\usepackage[alf, abnt-etal-list=3, abnt-url-package=url, abnt-emphasize=bf]{abntex2cite}
+
+
+% evite usar o hyperref com abntex, pode dar caca em urls... no linha anterior, informo
+% para incluir urls usando o pacote url e não o hyperref
+%
+% caso queira o hyperref com abntex, comente a linha anterior e descomente a seguinte
+%\usepackage[alf,abnt-etal-cite=3,abnt-etal-list=0,abnt-etal-text=emph]{abntex2cite}
+%
+% caso vc ainda use a versão anterior da abntex, comente a linha incluindo o abntex2cite
+% e descomente a próxima linha 
+%\usepackage[alf,abnt-etal-cite=3,abnt-etal-list=0,abnt-etal-text=emph]{abntcite}
+
+
+%==============================================================================
+% criação do glossário, listas de siglas, símbolos e etc
+%\loadglsentries{glossarios/abreviaturas}
+%\loadglsentries{glossarios/glossario}
+\loadglsentries{glossarios/siglas}
+%\loadglsentries{glossarios/simbolos}
+%==============================================================================
+
+%==============================================================================
+% para os fãs do Word, descomente as linhas abaixo
+%\sloppy %mais espaço entre as linhas
+%\usepackage{identfirst} %identando-se a primeira linha de cada seção
+%\noindentfirst % Tire o comentário para manter o padrão do LaTeX.
+
+%==============================================================================
+% definido comandos na monografia - não é necessário na sua monografia 
+% apenas para exemplificar a definição de novos comandos
+\newcommand{\defs}[1]{\textsl{#1}}
+
+
+% Especificando hifenizações que por ventura LaTeX não saiba fazer
+% Por padrão 99,9% dos termos em português devem ser hifenizados corretamente.
+\hyphenation{hardware software Li-nux am-bien-te diag-nos-ti-car coor-de-na-ção 
+FAE-PE Recovery TelEduc Williams UFLA hor-mô-nio des-en-vol-vi-men-to pre-ven-ção trei-na-men-to pa-ra a-com-pa-nha-men-to sm-art-ph-ones sm-art-ph-one pro-ce-ssa-men-to pré-pro-ce-ssa-men-to}
+
+%==============================================================================
+% Dados da monografia, capa: autor, titulo, banca, etc... - SUBSTITUA DE ACORDO
+%==============================================================================
+\author{Douglas Aquino Teixeira Mendes}
+\title{Sistema Inteligente para Correção de Exercícios com Halteres}
+\subtitle{}
+\engtitle{Intelligent System for Correcting Dumbbell Exercises}
+\engsubtitle{}
+%\edicao{3$^a$ edição revista, atualizada e ampliada}
+\date{2025}
+\tipo{Qualificação apresentada à Universidade Federal de Lavras, como parte das exigências do Programa de Pós-Graduação em Ciência da Computação, para a obtenção do título de Mestre.}
+% use \orientador ou \orientadora quando for o caso
+\orientador{Prof. DSc. Tales Heimfarth}
+%\orientadora{}
+% use \coorientador ou \coorientadora quando for o caso
+%\coorientadora{Prof. DSc. Maria Orientadora } % comente se não tiver coorientador
+%\coorientador{}
+\local{Lavras -- MG}
+\bancaum{Profa. Dra. Marluce Rodrigues Pereira}{UFLA}
+\bancadois{Prof. Dr. Vinícius Vitor dos Santos Dias}{UFLA} % comente se sua banca tiver só um professor
+\bancatres{Prof. Dr. Luiz Henrique Andrade Correia}{UFLA}
+%\bancaquatro{Prof. Esp. Carlos Banca Quatro}{IBGPLUS}
+\defesa{20 de Outubro de 2025}
+%==============================================================================
+%##################################################
+% Dados para Ficha catalográfica, gerada pelo sistema da Biblioteca da UFLA
+% http://www.biblioteca.ufla.br/FichaCatalografica/
+% dados para ficha catalográfica
+% Elaboração da Ficha Catalográfica
+\preparofichacat{Ficha catalográfica elaborada pela Coordenadoria de Processos Técnicos \\ da Biblioteca Universitária da UFLA}
+% primeiro autor - como na primeira linha da ficha catalográfica
+\fcautor{Mendes, Douglas Aquino Teixeira}
+% autores, separados por vírgula - na ficha catalográfica, no formato que
+% vem após o título e a barra ("/")
+\fcautores{Douglas Aquino Teixeira Mendes}
+% caso trabalho seja ilustrado (figuras, gráficos, tabelas, etc.), 
+% então informar por meio do comando a seguir
+% caso não seja ilustrado, basta comentá-lo
+\fcilustrado{il.}
+% dados da edição para a ficha 
+\fcedicao{2$^a$ ed. rev., atual. e ampl.}
+% tipo do trabalho (tese, dissertação, etc.), de acordo com sistema
+% de geração de ficha catalográfica
+\fctipo{Qualificação(mestrado)}
+% ano da defesa, só precisa informar se for diferente do ano da publicação
+% se forem iguais, comente a linha a seguir
+\fcdatadefesa{2025}
+% preencher aqui com os dados de catalogação gerados pelo sistema
+\fccatalogacao{1. TCC. 2. Monografia. 3. Dissertação. 4. Tese. 5. Trabalho Científico – Normas. I. Universidade Federal de Lavras. II. Título.}
+\fcclasi{808.066}
+
+%##################################################
+
+%\antesfichacat{\noindent Para citar este documento: \\UNIVERSIDADE FEDERAL DE LAVRAS. Biblioteca Universitária. \textbf{Manual de normalização e estrutura de trabalhos acadêmicos: TCC, monografias, dissertações e teses}. 2. ed. rev., atual. e ampl. Lavras, 2015. Disponível em: \url{http://www.biblioteca.ufla.br/wordpress/wpcontent/uploads/bdtd/manual_normalizacao_UFLA.pdf}. Acesso em: data de acesso.}
+
+%\depoisfichacat{\noindent A reprodução e a divulgação total ou parcial deste trabalho são autorizadas, por qualquer meio convencional ou eletrônico, para fins de estudo e pesquisa, desde que citada a fonte.\\
+%\newline
+%{\small Este documento possui páginas em branco para facilitar a impressão frente-e-verso.}}
+
+%##################################################
+
+%##################################################
+
+% para os exemplos do manual
+%\newenvironment{exemplomanual}{
+%\vspace{0.5cm}
+%\noindent\begin{minipage}{\textwidth}
+%\noindent\rule{\textwidth}{0.5pt}
+%\vspace{-1cm}
+%\begin{flushleft}
+%}{
+%\end{flushleft}
+%\vspace{-0.6cm}
+%\noindent\rule{\textwidth}{0.5pt}
+%\vspace{0.3cm}
+%\end{minipage}
+%}
+
+%\newenvironment{exemplomanuallista}{
+%\vspace{0.3cm}
+%\noindent\begin{minipage}{\textwidth - 0.5cm}
+%\noindent\rule{\textwidth}{0.5pt}
+%\vspace{-1cm}
+%\begin{flushleft}
+%}{
+%\end{flushleft}
+%\vspace{-0.6cm}
+%\noindent\rule{\textwidth}{0.5pt}
+%\vspace{0.3cm}
+%\end{minipage}
+%}
+
+% por conta de alguns exemplos
+%\usepackage{setspace}
+
+%##################################################
+
+% se vc já defendeu e tem o arquivo escaneado da folha de rosto, 
+% descomente e altere o nome do arquivo
+%\folhaAprovacaoAssinada{folharosto}
+
+% Aqui começa o documento propriamente dito
+\begin{document}
+
+\maketitle
+
+%\dedic{Espaço reservado à dedicatória.}     % Dedicatórias\\
+
+\thanks{O presente trabalho foi realizado com apoio da Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES) - Código de Financiamento 001}         % Agradecimentos
+
+\epigrafe{ % citação opcional
+A vida não é uma corrida para ser vencida de qualquer maneira,
+mas uma caminhada para ser percorrida da melhor maneira.\\
+(Paulo Cesar Paschoalini)}
+
+
+% palavras-chave
+\palchaves{Internet das Coisas; Exercícios de Força; Sensores Inerciais; Aprendizado de Máquina; Comunicação sem Fio}
+\resumo{
+O presente trabalho propõe o desenvolvimento de um sistema inteligente para monitoramento e correção da execução de exercícios de força com halteres instrumentados com sensores inerciais (IMUs). Diferentemente das abordagens tradicionais baseadas em dispositivos vestíveis ou em visão computacional, a solução proposta busca reduzir o desconforto do usuário e aumentar a portabilidade ao incorporar os sensores diretamente ao equipamento. O sistema é composto por um protótipo de halteres com IMU, comunicação sem fio via Bluetooth Low Energy com um aplicativo móvel e integração de algoritmos de aprendizado de máquina.  
+
+O aplicativo, projetado em dois modos de operação, oferece funcionalidades complementares: no modo usuário, fornece feedback automático em tempo real sobre a qualidade da execução; no modo treinador, permite que profissionais de saúde física acompanhem a execução e rotulem repetições corretas ou incorretas, especificando o tipo de erro observado. Esse mecanismo cria um ciclo de aprendizado contínuo, fortalecendo a personalização do sistema e contornando o problema de generalização frequentemente relatado na literatura.  
+
+Espera-se que o trabalho contribua com resultados técnicos, incluindo a validação de um protótipo funcional, a análise de desempenho de algoritmos aplicados ao reconhecimento e avaliação de movimentos e a integração prática em um aplicativo móvel. Do ponto de vista acadêmico, pretende-se avançar na discussão sobre instrumentação de equipamentos de treino como alternativa a soluções vestíveis, além de explorar metodologias de aprendizado personalizadas para o monitoramento de exercícios físicos.  
+}  % Resumo (digite aqui o resumo)
+
+% keywords devem vir antes do abstract
+\keywords{Internet of Things; Strength Exercises; Inertial Sensors; Machine Learning; Wireless Communication} % keywords
+
+\abstract{This work proposes the development of an intelligent system for monitoring and correcting the execution of strength training exercises using dumbbells instrumented with inertial measurement units (IMUs). Unlike traditional approaches based on wearable devices or computer vision, the proposed solution aims to reduce user discomfort and increase portability by embedding the sensors directly into the equipment. The system consists of a prototype dumbbell with an IMU, wireless communication via Bluetooth Low Energy to a mobile application, and the integration of machine learning algorithms.  
+
+The mobile application is designed with two complementary modes of operation: in the user mode, it provides real-time automatic feedback on movement quality; in the trainer mode, physical health professionals can monitor the exercise and label repetitions as correct or incorrect, specifying the type of error observed. This mechanism creates a continuous learning cycle, strengthening system personalization and addressing the generalization problem frequently reported in the literature.  
+
+Expected outcomes include technical results such as the validation of a functional prototype, performance analysis of algorithms for movement recognition and evaluation, and the practical integration into a mobile application. From an academic perspective, the project aims to advance the discussion on equipment instrumentation as an alternative to wearables, while exploring personalized learning methodologies for physical exercise monitoring.  
+}
+
+
+\indicadoresdeimpacto{%De caráter institucional, é um item obrigatório como parte das exigências das PRPG/PROEC para os trabalhos de pós-graduação Stricto sensu da UFLA. O autor deve apresentar um relato dos impactos sociais, tecnológicos, econômicos e/ou culturais dos resultados obtidos, considerando as populações, sociedade e territórios, deixando evidente se esses impactos foram concretos e diretos ou em potencial. Ao elaborar o item sobre impactos, é importante: 
+%a) caracterizar e quantificar resultados dos impactos sociais, tecnológicos, econômicos e/ou culturais da melhor forma possível; 
+%b) estabelecer se há algum caráter extensionista no trabalho, demonstrando impacto e participação da sociedade externa à UFLA, como parceiros e público-alvo; 
+%c) definir o território e grupos populacionais impactados; 
+%d) quando possível, declarar público diretamente beneficiado e número de docentes, estudantes e técnicos envolvidos nas ações extensionistas; 
+%e) estabelecer em quais das oito áreas temáticas da Política Nacional de Extensão podem ser classificados os impactos do trabalho. São elas: 1 - Comunicação, 2 - Cultura, 3 - Direitos humanos e justiça, 4 - Educação, 5 - Meio ambiente, 6 - Saúde, 7 - Tecnologia e produção e 8 - Trabalho;
+%f) demonstrar quais os impactos da pesquisa e se estão alinhados com os 17 (dezessete) Objetivos de Desenvolvimento Sustentável (ODS) da Organização das Nações Unidas (ONU).
+
+O presente trabalho propõe o desenvolvimento de um sistema inteligente para monitoramento e correção de exercícios de força com halteres utilizando sensores inerciais (\gls{imu}), com potenciais impactos sociais, tecnológicos e de saúde. Como ainda está em fase de qualificação, os impactos apresentados são esperados a partir dos objetivos da pesquisa.
+
+A proposta busca democratizar o acesso a ferramentas de monitoramento da atividade física por meio de uma solução de baixo custo e não invasiva, apoiando principalmente praticantes sem supervisão, reduzindo riscos de lesões e incentivando a prática regular de exercícios. Em médio prazo, espera-se maior adesão ao exercício físico e melhora na qualidade de vida. A integração de sensores em halteres, distinta de abordagens com dispositivos vestíveis ou visão computacional, amplia o campo de aplicações em academias e ambientes domésticos, contribuindo para avanços em monitoramento de movimento, biomecânica e aprendizado de máquina. O uso de sensores acessíveis pode gerar soluções comerciais para academias e usuários domésticos, além de reduzir custos com tratamentos de lesões.
+
+O caráter extensionista do projeto permite aplicação além do meio acadêmico, alcançando academias, estúdios e residências, com possibilidade de parcerias com profissionais de educação física e empresas do setor fitness. O público beneficiado inclui praticantes, treinadores e gestores de academias, com potencial expansão para fisioterapia e reabilitação.
+
+O trabalho insere-se nas áreas de: \textbf{Saúde (6)} promoção da saúde e prevenção de lesões; \textbf{Tecnologia e produção (7)} desenvolvimento de protótipos e algoritmos para monitoramento de exercícios; \textbf{Educação (4)} contribuição para o aprendizado motor e práticas seguras de atividade física. Quanto aos Objetivos de Desenvolvimento Sustentável, o projeto se alinha a \textbf{ODS 3} Saúde e bem-estar, \textbf{ODS 9} Indústria, inovação e infraestrutura e \textbf{ODS 4} Educação de qualidade (em potencial).
+}
+
+\impactindicators{This work proposes the development of an intelligent system for monitoring and correcting strength exercises with dumbbells using inertial sensors (IMUs), with potential social, technological, and health impacts. As the project is still at the qualification stage, the impacts presented are expected outcomes based on the research objectives.
+
+The proposal aims to democratize access to physical activity monitoring tools through a low-cost and non-invasive solution, supporting especially unsupervised practitioners, reducing injury risks, and encouraging regular exercise. In the medium term, greater adherence to physical activity and improvements in quality of life are expected. The integration of sensors into dumbbells, unlike traditional approaches based on wearables or computer vision, expands applications in gyms and home environments, contributing to advances in motion monitoring, biomechanics, and machine learning. The use of affordable sensors can lead to commercial solutions for gyms and home users, as well as reduce costs related to injury treatments.
+
+The project has an extensionist character, with potential application beyond the academic environment, reaching gyms, training studios, and home practice, with possible partnerships with physical education professionals and fitness companies. The directly benefited public includes practitioners, trainers, and gym managers, with potential expansion to physiotherapy and rehabilitation.
+
+The work is mainly classified in the areas of: \textbf{Health (6)} health promotion and injury prevention; \textbf{Technology and production (7)} development of prototypes and algorithms for exercise monitoring; \textbf{Education (4)} contribution to motor learning and safe physical activity practices. Regarding the Sustainable Development Goals, the project aligns with \textbf{SDG 3} Good health and well-being, \textbf{SDG 9} Industry, innovation and infrastructure, and \textbf{SDG 4} Quality education (potentially).}
+
+%##################################################
+
+% Dados do guia
+%\begin{titlepage}
+%\pagestyle{empty}
+%\renewcommand{\baselinestretch}{1}
+%\enlargethispage{1.5cm}
+%\input{reitoria}
+%\cleardoublepage
+%\end{titlepage}
+
+%##################################################
+
+% descomente para habilitar a lista desejada
+\listoffigures                             % Lista de Figuras
+%\listofilustracoes
+%\listofgraficos						   % Lista de Gráficos
+%\listoftables                              % Lista de Tabelas
+\listofquadros							   % Lista de Quadros
+%\listofexemplos
+%\listofteoremas
+
+%\listofabreviaturas
+\listofsiglas
+%\listofsimbolos
+\tableofcontents                           % Sumário
+
+\clearpage
+
+\pagestyle{ufla}
+
+%==============================================================================
+% incluindo as seções
+\include{chapters/introducao}
+\include{chapters/LR}
+\include{chapters/correlatos}
+\include{chapters/metodologia}
+\include{chapters/resultados}
+\include{chapters/cronograma} 
+
+%==============================================================================
+% Incluindo bibliografia
+%\bibliographystyle{plain}             % estilo para labels em numeros
+%\bibliographystyle{alpha}             % estilo para labels em iniciais
+\bibliographystyle{abntex2-alf}           % estilo para referências usando ABNT, 
+                                       % precisa instalar o abntex para usar!!!
+
+
+% precisamos criar opções aqui, já que sobreescrevemos o estilo.
+\citeoption{abnt-etal-text=it}
+\citeoption{abnt-etal-cite=3}
+\citeoption{abnt-missing-year=sd}
+\citeoption{abnt-nbr10520=1988} % A opção abnt-cite-style=AuthorYEAR está quebrada
+									% essa é equivalente
+
+%inclui Referências Bibliográficas
+%inclui Referências Bibliográficas
+\referencias
+\bibliography{chapters/bibs/exercises,chapters/bibs/correlatos,chapters/bibs/datasheets,chapters/bibs/images,chapters/bibs/ml,chapters/bibs/apps,chapters/bibs/extras}			% arquivo exemplo refbib.bib
+%==============================================================================
+% Incluindo glossário
+
+\glossario
+%==============================================================================
+% Incluindo anexos num1erados com letras maiusculas.
+%\apendices
+
+%\include{anexos/anexo1}
+%\include{apendices/apendice1}
+
+
+
+
+%==============================================================================
+% Incluindo índice
+\indice
+%==============================================================================
+% Fim do texto
+\end{document}

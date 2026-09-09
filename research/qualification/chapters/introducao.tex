@@ -1,0 +1,51 @@
+\chapter{Introdução}
+
+\section{Contextualização e Motivação}
+
+A prática regular de atividade física traz benefícios amplamente reconhecidos, como a prevenção de doenças crônicas e a manutenção da saúde física e mental \cite{dzaja-quantitative-nodate,gupta-yogahelp-2021,hwang-estimation-2023}. O treinamento de força, em especial, contribui para a preservação da massa muscular, melhora da capacidade funcional e redução do risco de lesões \cite{da2025atividade, hwang-estimation-2023}.  
+
+Apesar disso, muitas pessoas não atingem os níveis recomendados de atividade, seja pela falta de motivação, seja pela ausência de acompanhamento profissional adequado \cite{balkhi-multipurpose-nodate}. A execução incorreta de exercícios, comum em treinos sem supervisão, aumenta o risco de lesões e compromete a eficácia do treinamento \cite{UnifisioHomeCare2025}. A supervisão presencial de profissionais de educação física é considerada ideal, mas nem sempre está disponível devido a custos ou restrições de tempo \cite{dzaja-quantitative-nodate}.
+
+O avanço das tecnologias móveis e sensores viabilizou sistemas de monitoramento automatizado, em geral baseados em dispositivos vestíveis ou visão computacional. No entanto, tais abordagens apresentam limitações: desconforto e baixa adesão no caso de vestíveis, e custo e dependência de condições ambientais no caso da visão computacional \cite{dzaja-quantitative-nodate,gupta-yogahelp-2021}.  
+
+Neste contexto, propõe-se o uso de sensores inerciais (\gls{imu}) integrados diretamente em halteres para monitorar e corrigir a execução dos exercícios. Essa abordagem evita o desconforto dos vestíveis e possibilita o monitoramento em ambientes variados, com menor custo e maior portabilidade.
+
+\section{Problema de Pesquisa}
+
+O problema central desta pesquisa é a realização incorreta de exercícios com halteres por praticantes sem supervisão profissional, resultando em riscos de lesão e baixa eficácia do treino. Métodos tradicionais de apoio — como espelhos, vídeos e aplicativos genéricos — são limitados, pois não oferecem feedback em tempo real nem personalização adequada. Já soluções digitais avançadas ainda dependem de hardware caro ou de condições restritivas. Dessa forma, permanece a lacuna de um sistema acessível, não invasivo e objetivo, capaz de avaliar a execução de exercícios com pesos livres e fornecer feedback corretivo imediato ao usuário.
+
+\section{Justificativa}
+
+Embora estudos recentes avancem no monitoramento de exercícios com sensores, ainda predominam abordagens voltadas à contagem de repetições ou reconhecimento básico de atividades, sem detalhar a qualidade do movimento \cite{dzaja-quantitative-nodate}. Além disso, o uso de múltiplos sensores corporais pode gerar desconforto e reduzir a adesão ao sistema \cite{balkhi-multipurpose-nodate}.  
+
+O diferencial desta pesquisa está em integrar sensores inerciais diretamente aos halteres, eliminando a necessidade de vestíveis e proporcionando maior conforto ao usuário. Além disso, será desenvolvido um aplicativo com dois modos de operação:  
+\begin{itemize}
+    \item \textbf{Modo Usuário:} fornece feedback automático em tempo real sobre a execução, auxiliando na correção da técnica e prevenção de lesões.  
+    \item \textbf{Modo Treinador:} permite que profissionais acompanhem a execução e classifiquem repetições como corretas ou incorretas, registrando o tipo de erro (ex.: cadência inadequada, movimento desalinhado). Esses dados serão usados para treinar o algoritmo com base no perfil individual do praticante, contornando o problema de generalização observado em modelos genéricos.  
+\end{itemize}
+
+Com isso, pretende-se oferecer um sistema mais preciso, adaptável às características individuais (altura, peso, nível de experiência) e aplicável tanto em ambientes domésticos quanto em academias.
+
+\section{Objetivo Geral}
+
+Desenvolver um sistema inteligente, baseado em halteres equipados com IMUs, capaz de monitorar e avaliar a execução de exercícios de força, fornecendo feedback automático e personalizável ao usuário.
+
+\section{Objetivos Específicos}
+
+\begin{enumerate}
+    \item Projetar e construir um protótipo inicial de halteres instrumentados com IMUs.  
+    \item Definir o exercício de força inicial a ser monitorado.  
+    \item Elaborar um protocolo experimental de coleta de dados.  
+    \item Realizar a coleta com participantes em condições controladas.  
+    \item Processar e analisar os dados coletados, extraindo características relevantes.  
+    \item Desenvolver algoritmos para avaliação da qualidade da execução.  
+    \item Integrar os algoritmos ao sistema, fornecendo feedback automático em tempo real.  
+    \item Desenvolver o \textbf{modo usuário} e o \textbf{modo treinador} no aplicativo móvel.  
+    \item Validar o sistema experimentalmente, comparando com a avaliação de especialistas.  
+    \item Explorar, em etapas futuras, o reconhecimento automático de exercícios adicionais.  
+    \item Documentar e disseminar os resultados obtidos.  
+\end{enumerate}
+
+\section{Estrutura do Trabalho}
+
+Este trabalho está organizado em seis capítulos, além desta introdução. O capítulo \ref{chap:LR} apresenta a revisão de literatura e o referencial teórico que embasam a pesquisa. No capítulo \ref{cap:correlatos} são abordados os trabalhos relacionados ao tema. O capítulo \ref{cap:metodologia} detalha a metodologia de desenvolvimento e validação utilizada. Já o capítulo \ref{cap:resultados} expõe os resultados esperados, bem como as limitações do estudo. Por fim, o capítulo \ref{cap:cronograma} traz o cronograma e as considerações finais, encerrando a estrutura do trabalho.

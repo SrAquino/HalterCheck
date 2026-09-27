@@ -3,8 +3,7 @@
 
 constexpr char HALTER_ID[] = "H2";
 
-constexpr char WIFI_SSID[] = "CLARO_6DFDD9";
-constexpr char WIFI_PASSWORD[] = "asdfghjkL";
+#include "secrets.h"  // WIFI_SSID e WIFI_PASSWORD; arquivo local ignorado pelo Git
 
 // Deve ser o IPv4 do computador, não o IP do ESP32.
 IPAddress SERVER_IP(192, 168, 0, 8);

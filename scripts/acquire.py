@@ -21,7 +21,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-VERSION = '0.3.0'
+VERSION = '0.4.0'
 ROOT = Path(__file__).resolve().parent.parent
 EXPECTED = {(h,s) for h in ('H1','H2') for s in ('A','B')}
 FIELDS = ['halter_id','seq','t_ms','sensor','ax','ay','az','gx','gy','gz',
@@ -169,6 +169,7 @@ class Recorder:
         self.lock = threading.Lock(); self.shutdown = threading.Event()
         self.active = False; self.failure = None; self.files = []
         self.latest = {}; self.connection_counter = 0; self.rows = 0; self.invalid = 0
+        self.sync_events = []
         self.start_ns = None; self.stop_ns = None
 
     def new_connection(self):
@@ -185,8 +186,20 @@ class Recorder:
         with self.lock:
             f=(folder/'imu.csv').open('x',newline='',encoding='utf-8',buffering=1); self.files.append(f)
             self.bad=(folder/'invalid.jsonl').open('x',encoding='utf-8',buffering=1); self.files.append(self.bad)
+            self.sync_file=(folder/'sync.jsonl').open('x',encoding='utf-8',buffering=1); self.files.append(self.sync_file)
+            for event in self.sync_events:
+                self.sync_file.write(json.dumps(event,allow_nan=False)+'\n')
             self.writer=csv.writer(f); self.writer.writerow(FIELDS); f.flush()
             self.start_ns=time.monotonic_ns(); self.started_utc=utc_now(); self.active=True
+
+    def record_sync(self, event):
+        with self.lock:
+            self.sync_events.append(event)
+            if self.active:
+                try:
+                    self.sync_file.write(json.dumps(event,allow_nan=False)+'\n')
+                except OSError as exc:
+                    self.failure=str(exc); self.active=False
 
     def process(self, raw, cid, forced_error=None):
         received=time.monotonic_ns(); utc=utc_now(); parsed=None
@@ -197,7 +210,7 @@ class Recorder:
             if len(p)!=10 or (p[0],p[3]) not in EXPECTED:
                 raise ValueError('Formato ou identificador inválido.')
             seq,stamp=int(p[1]),int(p[2]); values=list(map(int,p[4:]))
-            if not (0<=seq<=0xFFFFFFFF and 0<=stamp<=0xFFFFFFFF) or any(not -32768<=v<=32767 for v in values):
+            if not (0<=seq<=0xFFFFFFFF and 0<=stamp<2**63) or any(not -32768<=v<=32767 for v in values):
                 raise ValueError('Valor fora do intervalo.')
             parsed=[p[0],seq,stamp,p[3],*values]
         except (ValueError,UnicodeError) as exc:
@@ -243,6 +256,7 @@ class Recorder:
 class Handler(socketserver.BaseRequestHandler):
     def handle(self):
         rec=self.server.recorder; cid=rec.new_connection();self.request.settimeout(.25);buf=b''
+        pending={}
         while not rec.shutdown.is_set():
             try:
                 data=self.request.recv(4096)
@@ -255,8 +269,40 @@ class Handler(socketserver.BaseRequestHandler):
             buf+=data
             while b'\n' in buf:
                 raw,buf=buf.split(b'\n',1)
+                received_us=time.monotonic_ns()//1000
                 if raw.strip():
-                    rec.process(raw,cid)
+                    if raw.startswith(b'SYNC_REQ,'):
+                        try:
+                            _,halter,t1_text=raw.decode('ascii').strip().split(',')
+                            t1=int(t1_text)
+                            if halter not in ('H1','H2') or not 0<=t1<2**63:
+                                raise ValueError('Identificador ou timestamp inválido.')
+                            t2=received_us
+                            t3=time.monotonic_ns()//1000
+                            self.request.sendall(f'SYNC_REPLY,{t1},{t2},{t3}\n'.encode('ascii'))
+                            pending[(halter,t1)]=(t2,t3)
+                        except (ValueError,UnicodeError,OSError) as exc:
+                            rec.process(raw,cid,f'SYNC_REQ inválido: {exc}')
+                    elif raw.startswith(b'SYNC_RESULT,'):
+                        try:
+                            _,halter,*stamps=raw.decode('ascii').strip().split(',')
+                            if len(stamps)!=4 or halter not in ('H1','H2'):
+                                raise ValueError('Formato inválido.')
+                            t1,t2,t3,t4=map(int,stamps)
+                            if pending.pop((halter,t1),None)!=(t2,t3) or not t1<=t4 or not t2<=t3:
+                                raise ValueError('Resposta sem pedido correspondente.')
+                            delay=(t4-t1)-(t3-t2)
+                            if not 0<=delay<1_000_000:
+                                raise ValueError('Tempo de ida e volta inválido.')
+                            rec.record_sync(dict(halter_id=halter,connection_id=cid,
+                                t1_esp_us=t1,t2_server_us=t2,t3_server_us=t3,t4_esp_us=t4,
+                                server_minus_esp_us=((t2-t1)+(t3-t4))/2,
+                                round_trip_us=delay,received_monotonic_ns=time.monotonic_ns(),
+                                received_utc=utc_now()))
+                        except (ValueError,UnicodeError) as exc:
+                            rec.process(raw,cid,f'SYNC_RESULT inválido: {exc}')
+                    else:
+                        rec.process(raw,cid)
             if len(buf)>65536:
                 rec.process(buf,cid,'Linha longa demais.');buf=b'';break
         if buf and not rec.shutdown.is_set():
@@ -323,16 +369,31 @@ def analyze_quality(path, duration, invalid=0, storage_error=None):
         halters[h]={k:counts[h][k] for k in keys}
         halters[h]['connections_with_data']=len({x['connection_id'] for s in ('A','B') for x in sensors[(h,s)]})
         halters[h]['sequence_regressions']=sum(b['seq']<a['seq'] for a,b in zip(sensors[(h,'A')],sensors[(h,'A')][1:]))
-    return dict(schema_version=2,collector_version=VERSION,halters=halters,sensors=reports,
+    sync_path=Path(path).with_name('sync.jsonl')
+    sync_events=[]
+    if sync_path.exists():
+        with sync_path.open(encoding='utf-8') as f:
+            sync_events=[json.loads(line) for line in f if line.strip()]
+    sync_summary={}
+    for h in ('H1','H2'):
+        events=[e for e in sync_events if e['halter_id']==h]
+        best=min(events,key=lambda e:e['round_trip_us']) if events else None
+        sync_summary[h]=dict(exchanges=len(events),best_round_trip_us=best['round_trip_us'] if best else None,
+                             best_server_minus_esp_us=best['server_minus_esp_us'] if best else None)
+    return dict(schema_version=3,collector_version=VERSION,halters=halters,sensors=reports,
         gap_threshold_s=GAP_THRESHOLD_S,gap_events=gap_events,clock_events=clock_events,
-        invalid_lines=invalid,storage_error=storage_error,bilateral_synchronization='not_measured',
+        invalid_lines=invalid,storage_error=storage_error,synchronization_estimates=sync_summary,
+        bilateral_synchronization='offset_estimated_residual_not_validated' if all(sync_summary[h]['exchanges'] for h in ('H1','H2')) else 'insufficient_exchanges',
         requires_review=bool(gap_events or clock_events or invalid or storage_error or
+            any(not sync_summary[h]['exchanges'] for h in ('H1','H2')) or
             any(v['missing_sequences_within_connections'] for v in reports.values()) or
             any(counts[h][k] for h in counts for k in ('incomplete_pairs','duplicate_sensors','timestamp_mismatches_within_pair'))),
         notes=['Gaps medem intervalos sem amostras recebidas; não provam a causa elétrica ou de transporte.',
                'Eventos A/B do mesmo halter podem descrever a mesma interrupção: não somar como falhas independentes.',
                'Sequências ausentes são calculadas apenas dentro de conexões; lacunas entre conexões estão em gap_events.',
                'Reinício provável exige regressão simultânea de sequência e relógio, fora da região de wraparound.',
+               'Offsets de ida e volta assumem atrasos aproximadamente simétricos; não demonstram erro residual.',
+               'Valide o alinhamento bilateral por um evento físico comum no início e no fim da sessão.',
                'Ausência de alertas não comprova sincronização, calibração ou qualidade biomecânica.'])
 
 
@@ -416,7 +477,7 @@ def main():
         intended_condition=condition,left_device=left,right_device='H1' if left=='H2' else 'H2',power=power,
         mode=mode,requested_duration_s=duration,requested_duration_definition='exercise_only',
         preparation_s=timeline.exercise_start,finalization_s=5,video_planned=video=='s',raw_units='int16_counts',
-        synchronization='not_validated',tcp_port=port,reported_complete_repetitions=None,reported_incident=None,
+        synchronization='offset_estimation_pending_physical_validation',tcp_port=port,reported_complete_repetitions=None,reported_incident=None,
         reported_notes=None,annotation_status='pending',confirmed_labels=None,
         voice_guidance=dict(enabled=guided,phase_duration_s=phase if guided else None,first_up_command_s=timeline.exercise_start if guided else None,
                             commands_file='cues.json',commands_are_confirmed_labels=False))
@@ -497,6 +558,8 @@ def main():
     quality=analyze_quality(folder/'imu.csv',metadata['actual_duration_s'],recorder.invalid,recorder.failure)
     save_json(folder/'quality.json',quality)
     print(json.dumps(quality['halters'],indent=2,ensure_ascii=False))
+    print('Sincronização estimada:',json.dumps(quality['synchronization_estimates'],ensure_ascii=False))
+    print('Erro residual bilateral requer validação com evento físico comum.')
     if quality['requires_review']:
         print('ATENÇÃO: coleta requer revisão. Veja gap_events e clock_events em quality.json.')
         for e in quality['gap_events']:

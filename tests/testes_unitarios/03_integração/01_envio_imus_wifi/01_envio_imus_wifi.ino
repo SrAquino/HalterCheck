@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <Wire.h>
+#include <esp_timer.h>
 
 constexpr char HALTER_ID[] = "H2";
 
@@ -20,6 +21,8 @@ constexpr uint32_t SAMPLE_INTERVAL_US = 20000;
 constexpr uint32_t WIFI_RETRY_MS = 5000;
 constexpr uint32_t TCP_RETRY_MS = 2000;
 constexpr uint32_t STATUS_INTERVAL_MS = 5000;
+constexpr uint32_t SYNC_INTERVAL_MS = 10000;
+constexpr uint32_t SYNC_TIMEOUT_MS = 2000;
 
 constexpr uint8_t REG_SMPLRT_DIV = 0x19;
 constexpr uint8_t REG_CONFIG = 0x1A;
@@ -47,6 +50,11 @@ uint32_t lastTcpAttemptMs = 0;
 uint32_t lastStatusMs = 0;
 uint32_t sentPairs = 0;
 uint32_t transmissionFailures = 0;
+uint32_t lastSyncAttemptMs = 0;
+uint64_t pendingSyncT1Us = 0;
+char syncReplyBuffer[160];
+size_t syncReplyLength = 0;
+bool syncPending = false;
 
 bool writeRegister(
     uint8_t deviceAddress,
@@ -214,6 +222,9 @@ void maintainTcpConnection() {
 
   if (tcpClient.connect(SERVER_IP, SERVER_PORT)) {
     tcpClient.setNoDelay(true);
+    syncPending = false;
+    syncReplyLength = 0;
+    lastSyncAttemptMs = millis() - SYNC_INTERVAL_MS;
     Serial.println("Servidor TCP conectado.");
   } else {
     Serial.println("Falha ao conectar ao servidor.");
@@ -224,7 +235,7 @@ void maintainTcpConnection() {
 
 bool sendPair(
     uint32_t sequence,
-    uint32_t timestampMs,
+    uint64_t timestampMs,
     const ImuData& imuA,
     const ImuData& imuB
 ) {
@@ -233,11 +244,11 @@ bool sendPair(
   const int length = snprintf(
       message,
       sizeof(message),
-      "%s,%lu,%lu,A,%d,%d,%d,%d,%d,%d\n"
-      "%s,%lu,%lu,B,%d,%d,%d,%d,%d,%d\n",
+      "%s,%lu,%llu,A,%d,%d,%d,%d,%d,%d\n"
+      "%s,%lu,%llu,B,%d,%d,%d,%d,%d,%d\n",
       HALTER_ID,
       static_cast<unsigned long>(sequence),
-      static_cast<unsigned long>(timestampMs),
+      static_cast<unsigned long long>(timestampMs),
       imuA.ax,
       imuA.ay,
       imuA.az,
@@ -246,7 +257,7 @@ bool sendPair(
       imuA.gz,
       HALTER_ID,
       static_cast<unsigned long>(sequence),
-      static_cast<unsigned long>(timestampMs),
+      static_cast<unsigned long long>(timestampMs),
       imuB.ax,
       imuB.ay,
       imuB.az,
@@ -267,9 +278,65 @@ bool sendPair(
   return sent == static_cast<size_t>(length);
 }
 
+void handleSyncReply(const char* line, uint64_t t4Us) {
+  unsigned long long t1 = 0, t2 = 0, t3 = 0;
+  if (sscanf(line, "SYNC_REPLY,%llu,%llu,%llu", &t1, &t2, &t3) != 3 ||
+      !syncPending || t1 != pendingSyncT1Us) {
+    return;
+  }
+  char message[160];
+  int length = snprintf(message, sizeof(message),
+      "SYNC_RESULT,%s,%llu,%llu,%llu,%llu\n", HALTER_ID,
+      t1, t2, t3, static_cast<unsigned long long>(t4Us));
+  if (length > 0 && static_cast<size_t>(length) < sizeof(message)) {
+    tcpClient.write(reinterpret_cast<const uint8_t*>(message), length);
+  }
+  syncPending = false;
+}
+
+void maintainSync() {
+  if (!tcpClient.connected()) {
+    syncPending = false;
+    syncReplyLength = 0;
+    return;
+  }
+  // Nunca espera pela rede: a aquisição continua a cada 20 ms.
+  for (int n = 0; n < 128 && tcpClient.available(); ++n) {
+    char ch = static_cast<char>(tcpClient.read());
+    if (ch == '\n') {
+      syncReplyBuffer[syncReplyLength] = '\0';
+      handleSyncReply(syncReplyBuffer, static_cast<uint64_t>(esp_timer_get_time()));
+      syncReplyLength = 0;
+    } else if (syncReplyLength + 1 < sizeof(syncReplyBuffer)) {
+      syncReplyBuffer[syncReplyLength++] = ch;
+    } else {
+      syncReplyLength = 0;
+    }
+  }
+  if (syncPending && millis() - lastSyncAttemptMs > SYNC_TIMEOUT_MS) {
+    syncPending = false;
+  }
+  if (syncPending || millis() - lastSyncAttemptMs < SYNC_INTERVAL_MS) {
+    return;
+  }
+  char request[80];
+  uint64_t t1Us = static_cast<uint64_t>(esp_timer_get_time());
+  int length = snprintf(request, sizeof(request), "SYNC_REQ,%s,%llu\n",
+      HALTER_ID, static_cast<unsigned long long>(t1Us));
+  lastSyncAttemptMs = millis();
+  if (length > 0 && static_cast<size_t>(length) < sizeof(request) &&
+      tcpClient.write(reinterpret_cast<const uint8_t*>(request), length) ==
+          static_cast<size_t>(length)) {
+    pendingSyncT1Us = t1Us;
+    syncPending = true;
+  }
+}
+
 void sampleAndTransmit() {
   ImuData imuA;
   ImuData imuB;
+
+  const uint64_t sampleStartUs = static_cast<uint64_t>(esp_timer_get_time());
 
   const bool imuARead =
       readImu(IMU_A_ADDRESS, imuA);
@@ -282,7 +349,10 @@ void sampleAndTransmit() {
     return;
   }
 
-  const uint32_t timestampMs = millis();
+  // Meio da janela de leitura sequencial A/B. O tempo de cada sensor
+  // ainda tem uma pequena incerteza de posição dentro desta janela.
+  const uint64_t timestampMs =
+      (sampleStartUs + static_cast<uint64_t>(esp_timer_get_time())) / 2000;
 
   if (tcpClient.connected()) {
     if (
@@ -373,6 +443,7 @@ void setup() {
 void loop() {
   maintainWifi();
   maintainTcpConnection();
+  maintainSync();
 
   const uint32_t currentUs = micros();
 

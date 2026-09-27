@@ -1,7 +1,6 @@
 \chapter{\MakeUppercase{Protocolo experimental}}
 \label{cap:metodologia}
 
-
 \section{Variáveis, tarefas avaliadas e unidade de análise}
 \label{sec:tarefas-avaliadas}
 
@@ -29,8 +28,8 @@ segmentação, a unidade corresponde a um intervalo temporal contendo uma
 repetição. Para a contagem, considera-se o conjunto de repetições de uma
 série. Na classificação, a unidade principal é uma repetição bilateral
 pareada, formada pelos sinais sincronizados dos halteres esquerdo e
-direito. O Quadro~\ref{qua:tarefas-avaliadas} sintetiza as tarefas, seus papéis e
-os respectivos critérios de avaliação.
+direito. O Quadro~\ref{qua:tarefas-avaliadas} sintetiza as tarefas, seus
+papéis e os respectivos critérios de avaliação.
 
 \begin{quadro}[htb]
     \caption{Tarefas avaliadas no HalterCheck}
@@ -43,7 +42,6 @@ os respectivos critérios de avaliação.
         \textbf{Papel no estudo} &
         \textbf{Critérios de avaliação} \\
         \hline
-
         Aquisição e sincronização &
         Requisito técnico &
         Frequência efetiva de amostragem, perdas, duplicações, pacotes
@@ -51,7 +49,6 @@ os respectivos critérios de avaliação.
         residual de sincronização entre os halteres.
         \\
         \hline
-
         Segmentação &
         Tarefa intermediária &
         Precisão, revocação e medida F1 na identificação das repetições,
@@ -59,7 +56,6 @@ os respectivos critérios de avaliação.
         e final.
         \\
         \hline
-
         Contagem &
         Resultado auxiliar &
         Erro absoluto entre a quantidade prevista e a quantidade de
@@ -67,7 +63,6 @@ os respectivos critérios de avaliação.
         contagem exata.
         \\
         \hline
-
         Classificação &
         Tarefa científica principal &
         Acurácia balanceada, precisão, revocação, medida F1 por classe,
@@ -75,7 +70,6 @@ os respectivos critérios de avaliação.
         separação entre sessões.
         \\
         \hline
-
         Observabilidade postural &
         Análise associada à hipótese H5 &
         Desempenho relativo a uma referência externa de rotulagem e
@@ -83,7 +77,6 @@ os respectivos critérios de avaliação.
         sessões não utilizadas no treinamento.
         \\
         \hline
-
         Latência &
         Avaliação transversal &
         Latência mediana, percentil 95, valor máximo e proporção de
@@ -92,7 +85,6 @@ os respectivos critérios de avaliação.
         \\
         \hline
     \end{tabular}
-
     \begin{flushleft}
         \footnotesize Fonte: elaboração própria.
     \end{flushleft}
@@ -100,11 +92,12 @@ os respectivos critérios de avaliação.
 
 A tarefa de classificação será decomposta de acordo com as hipóteses da
 pesquisa. Para H1, serão consideradas as condições de amplitude adequada,
-posição inicial próxima às coxas, elevação insuficiente e elevação
-excessiva. Para H2, serão avaliadas as condições de cadência de
+posição inicial inadequada próxima às coxas, elevação insuficiente e
+elevação excessiva. Para H2, serão avaliadas as condições de cadência de
 referência, acelerada e reduzida. Para H3, serão comparadas execuções
-simétricas e assimétricas. Para H4, serão avaliadas execuções com e sem
-uso deliberado de impulso ou balanço.
+temporalmente simétricas e execuções com atraso induzido entre os
+membros. Para H4, serão avaliadas execuções com e sem uso deliberado de
+impulso ou balanço.
 
 Esses problemas serão avaliados separadamente, evitando que a expansão
 do número de combinações entre erros produza classes com poucas
@@ -127,158 +120,214 @@ universal de identificação de erros posturais por halteres
 instrumentados.
 
 \subsection{Operacionalização das condições de amplitude}
+\label{subsec:operacionalizacao-amplitude}
 
-Para avaliar a hipótese H1, foram utilizados como parâmetros o ângulo
-inicial de elevação dos membros superiores, denotado por
-$\alpha_{\mathrm{ini}}$, e o ângulo máximo atingido durante a repetição,
-denotado por $\alpha_{\mathrm{max}}$. Esses ângulos serão determinados por
-uma referência externa calibrada, utilizada exclusivamente para a
-rotulagem e não como entrada dos métodos de classificação.
+Para avaliar a hipótese H1, serão considerados o ângulo inicial de
+elevação do membro $m$, denotado por $\alpha_{\mathrm{ini},m}$, e o
+ângulo máximo atingido durante a repetição, denotado por
+$\alpha_{\mathrm{max},m}$, com $m \in \{E,D\}$ representando os membros
+esquerdo e direito. Esses ângulos serão determinados por uma referência
+externa calibrada, utilizada exclusivamente para a rotulagem e não como
+entrada dos métodos de classificação.
 
-Foram estabelecidas as seguintes condições experimentais:
+Os trabalhos utilizados como referência apresentam execuções orientadas
+com início próximo de $10^\circ$ e máxima elevação próxima de
+$90^\circ$. Também mostram que execuções orientadas como corretas podem
+ultrapassar discretamente $90^\circ$. Por isso, o limite superior da
+condição adequada não foi fixado exatamente nesse ângulo.
+% Inserir as chaves BibTeX de Jee (2019), Jee (2020) e Esposito et al. (2025).
+
+Foram estabelecidas as seguintes condições experimentais, aplicadas a
+ambos os membros:
 
 \begin{itemize}
     \item \textbf{amplitude adequada:}
-    $10^\circ \leq \alpha_{\mathrm{ini}} \leq 15^\circ$ e
-    $85^\circ \leq \alpha_{\mathrm{max}} \leq 95^\circ$;
+    $10^\circ \leq \alpha_{\mathrm{ini},m} \leq 15^\circ$ e
+    $85^\circ \leq \alpha_{\mathrm{max},m} \leq 100^\circ$;
 
     \item \textbf{posição inicial inadequada:}
-    $\alpha_{\mathrm{ini}} \leq 5^\circ$ e
-    $85^\circ \leq \alpha_{\mathrm{max}} \leq 95^\circ$;
+    $0^\circ \leq \alpha_{\mathrm{ini},m} \leq 5^\circ$ e
+    $85^\circ \leq \alpha_{\mathrm{max},m} \leq 100^\circ$;
 
     \item \textbf{elevação insuficiente:}
-    $10^\circ \leq \alpha_{\mathrm{ini}} \leq 15^\circ$ e
-    $\alpha_{\mathrm{max}} < 60^\circ$;
+    $10^\circ \leq \alpha_{\mathrm{ini},m} \leq 15^\circ$ e
+    $\alpha_{\mathrm{max},m} \leq 60^\circ$;
 
     \item \textbf{elevação excessiva:}
-    $10^\circ \leq \alpha_{\mathrm{ini}} \leq 15^\circ$ e
-    $\alpha_{\mathrm{max}} \geq 105^\circ$.
+    $10^\circ \leq \alpha_{\mathrm{ini},m} \leq 15^\circ$ e
+    $\alpha_{\mathrm{max},m} \geq 105^\circ$.
 \end{itemize}
 
 Os intervalos entre $5^\circ$ e $10^\circ$, entre $60^\circ$ e
-$85^\circ$ e entre $95^\circ$ e $105^\circ$ constituem zonas de
-transição. Repetições situadas nessas zonas serão registradas, mas não
-serão utilizadas como exemplos induzidos das classes principais.
+$85^\circ$ e entre $100^\circ$ e $105^\circ$ constituem zonas de
+transição. Repetições situadas nessas zonas, ou fora das combinações
+explicitamente definidas, serão registradas como desvios de protocolo e
+não serão utilizadas como exemplos induzidos das classes principais.
 
 Durante a avaliação de H1, os dois membros deverão satisfazer a mesma
 condição de amplitude. Repetições nas quais cada membro pertença a uma
-classe diferente serão excluídas dessa análise, evitando a sobreposição
-entre amplitude inadequada e assimetria.
+classe diferente serão excluídas dessa análise principal, evitando a
+sobreposição entre amplitude inadequada e assimetria.
 
 As faixas estabelecidas constituem definições operacionais do protocolo
-experimental e não pretendem estabelecer critérios clínicos universais
-para a execução da elevação lateral.
+experimental. Elas foram escolhidas para produzir condições separáveis e
+não pretendem estabelecer critérios clínicos universais para a execução
+da elevação lateral.
 
 \subsection{Operacionalização das condições de cadência}
+\label{subsec:operacionalizacao-cadencia}
 
-Para avaliar a hipótese H2, a cadência foi definida pelas durações das
-fases ascendente e descendente de cada repetição. Sejam
-$T_{\mathrm{sub}}$ a duração da fase de subida,
-$T_{\mathrm{desc}}$ a duração da fase de descida e
-$T_{\mathrm{rep}} = T_{\mathrm{sub}} + T_{\mathrm{desc}}$ a duração
-total da repetição.
+Para avaliar a hipótese H2, a cadência será definida pelas durações das
+fases ascendente e descendente de cada membro. Sejam
+$T_{\mathrm{sub},m}$ a duração da fase de subida,
+$T_{\mathrm{desc},m}$ a duração da fase de descida e
+$T_{\mathrm{rep},m}=T_{\mathrm{sub},m}+T_{\mathrm{desc},m}$ a duração
+total da repetição do membro $m$.
 
-Foram estabelecidas três condições:
+Foram estabelecidas três condições experimentais:
 
 \begin{itemize}
     \item \textbf{cadência de referência:}
-    $1{,}75 \leq T_{\mathrm{sub}} \leq 2{,}25$ segundos,
-    $1{,}75 \leq T_{\mathrm{desc}} \leq 2{,}25$ segundos e
-    $3{,}5 \leq T_{\mathrm{rep}} \leq 4{,}5$ segundos;
+    $1{,}75 \leq T_{\mathrm{sub},m} \leq 2{,}25$ segundos,
+    $1{,}75 \leq T_{\mathrm{desc},m} \leq 2{,}25$ segundos e
+    $3{,}5 \leq T_{\mathrm{rep},m} \leq 4{,}5$ segundos;
 
     \item \textbf{cadência acelerada:}
-    $0{,}75 \leq T_{\mathrm{sub}} \leq 1{,}25$ segundos,
-    $0{,}75 \leq T_{\mathrm{desc}} \leq 1{,}25$ segundos e
-    $1{,}5 \leq T_{\mathrm{rep}} \leq 2{,}5$ segundos;
+    $0{,}75 \leq T_{\mathrm{sub},m} \leq 1{,}25$ segundos,
+    $0{,}75 \leq T_{\mathrm{desc},m} \leq 1{,}25$ segundos e
+    $1{,}5 \leq T_{\mathrm{rep},m} \leq 2{,}5$ segundos;
 
     \item \textbf{cadência reduzida:}
-    $2{,}75 \leq T_{\mathrm{sub}} \leq 3{,}25$ segundos,
-    $2{,}75 \leq T_{\mathrm{desc}} \leq 3{,}25$ segundos e
-    $5{,}5 \leq T_{\mathrm{rep}} \leq 6{,}5$ segundos.
+    $2{,}75 \leq T_{\mathrm{sub},m} \leq 3{,}25$ segundos,
+    $2{,}75 \leq T_{\mathrm{desc},m} \leq 3{,}25$ segundos e
+    $5{,}5 \leq T_{\mathrm{rep},m} \leq 6{,}5$ segundos.
 \end{itemize}
 
-As cadências serão orientadas por um metrônomo. Entretanto, a
-classificação de referência de cada repetição será determinada pelas
-durações efetivamente observadas, obtidas por uma referência temporal
-externa, e não apenas pela condição que foi instruída.
+As condições correspondem, respectivamente, a alvos de aproximadamente
+$2$ segundos, $1$ segundo e $3$ segundos para cada fase. As execuções
+serão orientadas por sinais temporais. Entretanto, a classificação de
+referência será determinada pelas durações efetivamente observadas em
+uma referência temporal externa, e não apenas pela condição instruída.
+% Inserir a chave BibTeX da fonte adotada para o ritmo de 2 s por fase.
 
-Repetições cujas durações se encontrem entre as faixas estabelecidas
-serão consideradas ambíguas e excluídas das classes induzidas. Também
-serão excluídas repetições que apresentem pausa superior a
-$0{,}25$ segundo no ponto de máxima elevação.
+Repetições cujas durações se encontrem nos intervalos não cobertos pelas
+faixas estabelecidas serão consideradas ambíguas e não integrarão as
+classes induzidas. Pausas deliberadas no ponto de máxima elevação não
+fazem parte das três condições de H2. Caso ocorram, serão registradas
+como desvios de protocolo e excluídas desta análise.
 
 Nas condições de cadência, a amplitude deverá permanecer adequada e os
-dois membros deverão executar a mesma condição temporal. Os valores
-adotados representam ritmos experimentais de referência, não uma
-prescrição universal de cadência correta.
+dois membros deverão executar a mesma condição temporal, sem atraso
+deliberado entre eles. Repetições em que os membros sejam enquadrados em
+condições temporais diferentes serão tratadas como condições mistas e
+excluídas da análise principal de H2.
+
+Os valores adotados representam ritmos experimentais destinados a
+produzir classes temporalmente separadas. Eles não constituem uma
+prescrição universal de cadência correta para a elevação lateral.
 
 \subsection{Operacionalização da assimetria entre os membros}
+\label{subsec:operacionalizacao-assimetria}
 
-Para avaliar a hipótese H3, a assimetria foi delimitada à diferença
-temporal entre os movimentos dos membros esquerdo e direito. Essa
-delimitação evita sobreposição com os erros de amplitude avaliados em
-H1.
+Para avaliar a hipótese H3, a condição principal de assimetria foi
+delimitada à defasagem temporal entre os movimentos dos membros esquerdo
+e direito. Essa delimitação permite manter individualmente a amplitude e
+a cadência de cada membro e reduz a sobreposição com as condições
+avaliadas em H1 e H2.
 
 Sejam $t_{\mathrm{ini},E}$ e $t_{\mathrm{ini},D}$ os instantes de início
-do movimento esquerdo e direito, respectivamente, e
+dos movimentos esquerdo e direito, respectivamente, e
 $t_{\mathrm{pico},E}$ e $t_{\mathrm{pico},D}$ os instantes em que cada
-membro alcança a máxima elevação. Foram definidas as medidas:
+membro alcança a máxima elevação. Serão calculadas as medidas
 
 \[
 \Delta t_{\mathrm{ini}} =
 \left|t_{\mathrm{ini},E}-t_{\mathrm{ini},D}\right|
 \]
 
+e
+
 \[
 \Delta t_{\mathrm{pico}} =
 \left|t_{\mathrm{pico},E}-t_{\mathrm{pico},D}\right|.
 \]
 
-Uma repetição será considerada \textbf{temporalmente simétrica} quando:
+Também serão calculadas a diferença absoluta entre as durações das fases
+de subida,
 
 \[
-\Delta t_{\mathrm{ini}} \leq 0{,}15~\mathrm{s}
-\quad \text{e} \quad
-\Delta t_{\mathrm{pico}} \leq 0{,}15~\mathrm{s}.
+\Delta T_{\mathrm{sub}} =
+\left|T_{\mathrm{sub},E}-T_{\mathrm{sub},D}\right|,
 \]
 
-A condição de \textbf{assimetria temporal induzida} será executada com
-um dos membros atrasado em relação ao outro. A repetição será incluída
-nessa classe quando:
+e a defasagem que maximiza a correlação cruzada entre os sinais
+cinemáticos correspondentes dos dois halteres. A diferença entre as
+amplitudes máximas dos membros será registrada como medida secundária,
+mas não definirá a classe principal de H3, pois uma diferença induzida de
+amplitude também caracterizaria uma condição de H1.
+% Inserir as chaves BibTeX de Jee (2019), Qian et al. (2026) e dos trabalhos
+% metodológicos adotados para defasagem e sincronização bilateral.
 
-\[
-\Delta t_{\mathrm{ini}} \geq 0{,}50~\mathrm{s}
-\quad \text{e} \quad
-\Delta t_{\mathrm{pico}} \geq 0{,}50~\mathrm{s}.
-\]
+Serão consideradas duas condições experimentais:
 
-Repetições com diferenças entre $0{,}15$ e $0{,}50$ segundo serão
-consideradas ambíguas e não integrarão as classes induzidas. O lado
-atrasado será registrado como metadado, e a quantidade de repetições
-com atraso do membro esquerdo e do membro direito deverá ser
-balanceada.
+\begin{itemize}
+    \item \textbf{execução temporalmente simétrica:} os dois membros
+    receberão o mesmo sinal de início e executarão o movimento sem atraso
+    deliberado, mantendo individualmente a amplitude adequada e a cadência
+    de referência;
 
-Durante essa condição, cada membro deverá manter individualmente a
-amplitude adequada e a cadência de referência. Os instantes utilizados
-para a rotulagem serão determinados por uma referência externa. A
-comparação realizada pelo HalterCheck utilizará somente os sinais
-sincronizados dos dois halteres.
+    \item \textbf{assimetria temporal induzida:} um dos membros iniciará
+    o movimento após um segundo sinal, emitido $0{,}50$ segundo depois do
+    sinal destinado ao outro membro. A ordem dos lados será balanceada
+    entre as repetições.
+\end{itemize}
 
-Somente serão incluídas nessa análise sessões cujo erro residual de
-sincronização entre os dispositivos seja inferior a um período de
-amostragem.
+O atraso de $0{,}50$ segundo constitui uma decisão operacional do
+protocolo, escolhida para gerar separação perceptível entre as condições,
+e não um limiar clínico de assimetria. Na condição induzida, cada membro
+deverá conservar a mesma duração individual de subida e descida e atingir
+a mesma faixa de amplitude. Desse modo, a diferença planejada entre os
+sinais corresponderá predominantemente a uma translação temporal.
+
+O rótulo experimental será determinado pela condição programada e
+confirmado pelos instantes medidos na referência externa. Repetições em
+que o participante não reproduza a manipulação planejada serão
+registradas como desvios de protocolo. As tolerâncias de aderência em
+torno dos alvos de $0$ e $0{,}50$ segundo serão estimadas nas sessões
+piloto e congeladas antes da coleta experimental final.
+
+O limiar utilizado pelo modelo de regras manuais será selecionado
+exclusivamente nas sessões destinadas ao desenvolvimento, com base na
+separação entre as distribuições das condições simétrica e assimétrica.
+Após essa seleção, o valor será congelado e aplicado sem ajustes às
+sessões de avaliação. Os modelos de aprendizado de máquina utilizarão as
+mesmas divisões por sessão e os mesmos rótulos de referência.
+
+A comparação realizada pelo HalterCheck utilizará somente os sinais
+sincronizados dos dois halteres. Somente serão incluídas nessa análise
+sessões cujo erro residual de sincronização entre os dispositivos seja
+inferior a um período de amostragem.
 
 \subsection{Padronização do plano de elevação}
 \label{subsec:plano-elevacao}
 
-Além da amplitude angular, foi padronizado o plano de execução do movimento. A elevação lateral foi realizada no plano escapular, com os membros superiores projetados aproximadamente $30^\circ$ à frente do
-plano frontal do corpo. Essa orientação foi mantida em todas as condições experimentais, de modo que as alterações de amplitude, cadência e simetria fossem avaliadas sem a introdução deliberada de diferenças no
-plano de elevação.
+Além da amplitude angular, será padronizado o plano de execução do
+movimento. A elevação lateral será realizada no plano escapular, com os
+membros superiores projetados aproximadamente entre $20^\circ$ e
+$30^\circ$ à frente do plano frontal do corpo. Essa orientação será
+mantida em todas as condições experimentais, de modo que as alterações
+de amplitude, cadência e simetria sejam avaliadas sem a introdução
+deliberada de diferenças no plano de elevação.
+% Inserir a chave BibTeX da referência biomecânica para o plano escapular.
 
-O plano de elevação não foi considerado uma variação de amplitude, mas uma característica distinta da trajetória do movimento. Sua possível identificação pelos sinais inerciais foi reservada para uma análise
-exploratória, considerando as limitações do sistema sensorial utilizado para estimar orientação absoluta no plano horizontal.
+O plano de elevação não será considerado uma variação de amplitude, mas
+uma característica distinta da trajetória do movimento. Sua possível
+identificação pelos sinais inerciais será reservada para uma análise
+exploratória, considerando as limitações do sistema sensorial utilizado
+para estimar orientação absoluta no plano horizontal.
 
 \subsection{Critério de verificação das hipóteses H1, H2 e H3}
+\label{subsec:criterio-h1-h3}
 
 A capacidade de identificação das condições será avaliada em sessões
 não utilizadas no treinamento dos modelos. As divisões dos dados serão
@@ -286,10 +335,9 @@ realizadas por sessão completa, evitando que repetições da mesma sessão
 apareçam simultaneamente nos conjuntos de treinamento e teste.
 
 Serão utilizadas como métricas principais a medida F1 macro e a
-acurácia balanceada, acompanhadas das matrizes de confusão e das
-medidas de precisão e revocação de cada classe. Regras manuais, Random
-Forest, SVM e CNN serão avaliados utilizando as mesmas divisões dos
-dados.
+acurácia balanceada, acompanhadas das matrizes de confusão e das medidas
+de precisão e revocação de cada classe. Regras manuais, Random Forest,
+SVM e CNN serão avaliados utilizando as mesmas divisões dos dados.
 
 Será considerada evidência favorável à respectiva hipótese quando o
 desempenho obtido em sessões não observadas durante o treinamento
